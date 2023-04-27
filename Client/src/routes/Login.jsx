@@ -9,6 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const {setUsername, setPassword, postCredentials} = useContext(AuthContext);
     const [waitingStatus, setWaitingStatus] = useState(0);
+    const [error, setError] = useState({isError : false, message : ''});
 
 
     const authenticate = async() => {
@@ -16,8 +17,13 @@ const Login = () => {
         try{
             const res = await postCredentials('login');
             const result = await res.json();
-            console.log(result);
             setWaitingStatus(0);
+            if(result.signedIn){
+                navigate('/profile');
+            }else{
+                 console.log(result);
+                setError({isError: true, message: result.error});
+             }
         }catch{
             console.log('Error');
         }
@@ -49,6 +55,12 @@ const Login = () => {
                      </td>
                      <td>
                         <Input type="password" password="password" defaultValue="Password" handler={setPassword}/> 
+                     </td>
+                  </tr>
+
+                  <tr>
+                     <td colSpan={3}>
+                     <span className = 'text-red-600 font-semibold'>{error.isError ? error.message : ''}</span>
                      </td>
                   </tr>
 

@@ -9,6 +9,7 @@ const Signup = () => {
    const navigate = useNavigate();
    const {setUsername, setEmail, setPassword, postCredentials} = useContext(AuthContext);
    const [waitingStatus, setWaiting] = useState(0);
+   const [error, setError] = useState({isError : false, message : ''});
 
    const authenticate = async() => {
       setWaiting(1);
@@ -17,7 +18,11 @@ const Signup = () => {
          const result = await res.json();
          console.log(result);
          setWaiting(0);
-         navigate('/login');
+         if(result.loggedIn){
+            navigate('/login');
+         }else{
+            setError({isError: true, message: result.error});
+         }
       }catch{
          console.log('Error');
       }
@@ -57,6 +62,12 @@ const Signup = () => {
                      </td>
                      <td>
                         <Input type="password" password="password" defaultValue="Password" handler={setPassword}/> 
+                     </td>
+                  </tr>
+
+                  <tr>
+                     <td colSpan={3}>
+                     <span className = 'text-red-600 font-semibold'>{error.isError ? error.message : ''}</span>
                      </td>
                   </tr>
 
