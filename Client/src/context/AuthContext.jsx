@@ -1,4 +1,4 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useState, useRef} from "react";
 
 export const AuthContext = createContext();
 
@@ -8,9 +8,15 @@ const AuthContextProvider = (props) => {
                                                     username : '',
                                                     email : '',
                                                     password : ''
-                                                    })
+                                                    });
+
+    const authState = useRef(false); // Use only on specific routes
 
     const authValue = {
+
+        getAuthState : () => { return {isAuthorized : authState.current}},
+
+        setAuthState : (newAuthState) => { authState.current = newAuthState;},
 
         setUsername : (username) => {
                 setCredentials(prevCredentials => ({...prevCredentials, username}));
@@ -29,6 +35,10 @@ const AuthContextProvider = (props) => {
             return {error : 'Error'};
         },
 
+        getCredentials : () => {
+            return {username : credentials.username};
+        },
+
         postCredentials : (authenticationMode) => {
             console.log(authenticationMode, credentials);
 
@@ -43,9 +53,7 @@ const AuthContextProvider = (props) => {
                 body : JSON.stringify(credentials)
             });
 
-            // const result = await res.json();
-            // console.log(result);
-            // */
+            
         }
 
     }

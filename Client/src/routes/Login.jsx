@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 const Login = () => {
 
     const navigate = useNavigate();
-    const {setUsername, setPassword, postCredentials} = useContext(AuthContext);
+    const {setUsername, setPassword, postCredentials, setAuthState} = useContext(AuthContext);
     const [waitingStatus, setWaitingStatus] = useState(0);
     const [error, setError] = useState({isError : false, message : ''});
 
@@ -19,6 +19,7 @@ const Login = () => {
             const result = await res.json();
             setWaitingStatus(0);
             if(result.signedIn){
+               setAuthState(true);
                 navigate('/profile');
             }else{
                  console.log(result);
