@@ -6,6 +6,7 @@ import Home from './routes/Home'
 import AuthContextProvider from './context/AuthContext'
 import Profile from './routes/Profile'
 import NotFound from './routes/NotFound'
+import NewPost from './routes/NewPost'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/user/:username" element={<Profile/>}/>
+            <Route path="/new/post" element={<NewPost/>}/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
       </AuthContextProvider>

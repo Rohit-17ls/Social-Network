@@ -10,13 +10,13 @@ const AuthContextProvider = (props) => {
                                                     password : ''
                                                     });
 
-    const authState = useRef(false); // Use only on specific routes
+    const [authState, setAuthState] = useState(false); // Use only on specific routes
 
     const authValue = {
 
-        getAuthState : () => { return {isAuthorized : authState.current}},
+        getAuthState : () => { return authState},
 
-        setAuthState : (newAuthState) => { authState.current = newAuthState;},
+        setAuthState : (newAuthState) => { setAuthState(newAuthState)},
 
         setUsername : (username) => {
                 setCredentials(prevCredentials => ({...prevCredentials, username}));
