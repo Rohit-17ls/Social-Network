@@ -7,7 +7,7 @@ export default {
         bgcolor : '#181a1b',
         bglight : '#2f3031',
         fgcolor : '#c9c9c9',
-        themecolor : '#13bb76',
+        themecolor : '#078350',
         grayedcolor : '#989cad'
       }
     },

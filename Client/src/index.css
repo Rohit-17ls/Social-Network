@@ -22,11 +22,11 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: #066940;
+  text-decoration: underline;
 }
 a:hover {
-  color: #535bf2;
+  color: #08995d;
 }
 
 body {
@@ -49,12 +49,12 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #066940;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.25s;
 }
 button:hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 button:focus,
 button:focus-visible {
@@ -72,6 +72,10 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+div{
+  word-break: break-all;
 }
 
 #loader {

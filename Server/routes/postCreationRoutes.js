@@ -5,7 +5,7 @@ const postCreationController = require('../controllers/postCreationController.js
 
 
 
-router.post('/api/newpost/get_signature', (req, res, next) => {
+router.get('/api/newpost/get_signature', (req, res, next) => {
     console.log(req.body);
     postCreationController.get_signature(req, res, next);
 });

@@ -7,11 +7,14 @@ import AuthContextProvider from './context/AuthContext'
 import Profile from './routes/Profile'
 import NotFound from './routes/NotFound'
 import NewPost from './routes/NewPost'
+import Navbar from './components/Navbar'
 
 function App() {
 
   return (
     <>
+    <Navbar/>
+
       <AuthContextProvider>
         <Routes>
           <Route path="/" element ={<Home/>}/>
