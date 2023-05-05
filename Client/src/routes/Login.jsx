@@ -18,7 +18,7 @@ const Login = () => {
             const res = await postCredentials('login');
             const result = await res.json();
             setWaitingStatus(0);
-            if(result.signedIn){
+            if(result.loggedIn){
                setAuthState(true);
                 navigate('/profile');
             }else{

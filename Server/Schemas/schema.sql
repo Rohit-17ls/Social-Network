@@ -26,6 +26,7 @@ CREATE TABLE posts(post_id VARCHAR(256) PRIMARY KEY NOT NULL,
                    text_content VARCHAR(480),
                    time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                    likes INT DEFAULT 0,
+                   dislikes INT DEFAULT 0,
                    FOREIGN KEY (creator_id) REFERENCES users(user_id) ON DELETE CASCADE);
 
 CREATE TABLE post_links(post_id VARCHAR(256),
@@ -35,6 +36,25 @@ CREATE TABLE post_links(post_id VARCHAR(256),
 CREATE TABLE post_tags(post_id VARCHAR(256),
                         tag VARCHAR(255) NOT NULL,
                         FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE);
+
+
+CREATE TABLE comments(post_id VARCHAR(256) NOT NULL,
+                      commenter_id VARCHAR(256) NOT NULL,
+                      comment_id VARCHAR(256) NOT NULL,
+                      comment VARCHAR(240),
+                      likes INT DEFAULT 0,
+                      time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                      PRIMARY KEY (commenter_id, post_id, comment_id),  
+                      FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
+                      FOREIGN KEY (commenter_id) REFERENCES users(user_id) ON DELETE CASCADE);
+
+/* vote_type : Like -> 'l' , Dislike -> 'd' */
+CREATE TABLE voters(user_id VARCHAR(256) NOT NULL,
+                    post_id VARCHAR(256) NOT NULL,
+                    vote_type VARCHAR(1) NOT NULL,
+                    PRIMARY KEY (user_id, post_id),
+                    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+                    FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE);
 
 /* Tables
     posts - strong entity,

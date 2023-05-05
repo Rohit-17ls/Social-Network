@@ -147,7 +147,7 @@ const NewPost = () => {
     setPostData(prevData => {return {...prevData, text: e.target.value}});
     const regexp = /@[a-zA-Z0-9]*/g;
     postTextRef.current.innerHTML = e.target.value.replace(regexp, (match, index) => {
-      return `<a href='/user/${match.slice(1,)}' class='text-themecolor font-semibold no-underline'>${match}</a>`
+      return `<a href='/user/${match.slice(1,)}' class='text-tagcolor font-semibold no-underline'>${match}</a>`
     })
   }
 
@@ -235,7 +235,7 @@ const NewPost = () => {
 
             </table>
 
-            <div className='border border-solid border-themecolor w-1/3 h-fit bg-bglight p-2'>
+            <div className='border border-solid border-tagcolor w-1/3 h-fit bg-bglight p-2'>
               <strong className='text-3xl'>Preview</strong>
               <div className='w-full h-fit my-5 flex flex-col justify-center items-center gap-3'>
                 <img ref={imgRef} className={`${image ? 'w-5/6' : 'w-0'} aspect-[15/16] mb-4`}></img>

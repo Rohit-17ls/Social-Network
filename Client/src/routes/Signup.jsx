@@ -18,7 +18,7 @@ const Signup = () => {
          const result = await res.json();
          console.log(result);
          setWaiting(0);
-         if(result.loggedIn){
+         if(result.signedIn){
             navigate('/login');
          }else{
             setError({isError: true, message: result.error});

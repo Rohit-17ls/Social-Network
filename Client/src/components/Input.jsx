@@ -7,7 +7,7 @@ const Input = ({type, name, defaultValue, handler}) => {
         type={type} 
         placeholder={defaultValue}
         name={name}
-        className = 'm-3 px-2 py-1 rounded-2xl border-solid border-2 border-themecolor'
+        className = 'm-3 px-2 py-1 rounded-2xl border-solid border-2 border-themecolor w-full'
         onChange={(e) => {handler(e.target.value)}}
     >
     </input>

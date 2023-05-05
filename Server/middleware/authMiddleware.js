@@ -12,7 +12,7 @@ const authMiddleware = (req, res, next) => {
                   async(err, decodedToken) => {
                         if(err){
                             console.log(err.message);
-                            res.json({isAuthorized : false, message : err.message});
+                            res.json({isAuthorized : false, unauthorized: true, message : err.message});
                         }else{
                             console.log('Authorized', decodedToken);
                             next();
@@ -20,7 +20,7 @@ const authMiddleware = (req, res, next) => {
                   }) 
     }else{
         console.log("Unauthorized Login");
-        res.json({isAuthorized : false, message: 'Please Login to access this resource'});
+        res.json({isAuthorized : false, unauthorized: true, message: 'Please Login to access this resource'});
     }
 }
 

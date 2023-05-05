@@ -55,8 +55,10 @@ module.exports.loginHandler = async(req, res, next) => {
         }
         
         const authToken = getHash(process.env.AUTH_SECRET_TOKEN, `${username}-${new Date().toISOString()}`);
+        query = `DELETE FROM auth where user_id = '${userID}';`;
+        let [result] = await connection.execute(query); 
         query = `INSERT INTO auth(user_id, auth_token) values('${userID}', '${authToken}');`;
-        const [result] = await connection.execute(query);
+        [result] = await connection.execute(query);
         connection.release();
 
         const token = createToken(username);

@@ -22,7 +22,7 @@
 
 a {
   font-weight: 500;
-  color: #015b7f;
+  color: #06a2df;
   text-decoration: underline;
 }
 a:hover {
@@ -53,6 +53,7 @@ button {
   cursor: pointer;
   transition: all 0.25s;
 }
+
 button:hover {
   opacity: 0.85;
 }
@@ -82,24 +83,89 @@ div{
   margin: auto;
   width: 48px;
   height: 48px;
-  border: 5px solid #FFF;
+  border: 5px solid #ffffffa9;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  }
+}
 
-  @keyframes rotation {
-  0% {
-      transform: rotate(0deg);
-  }
-  100% {
-      transform: rotate(360deg);
-  }
-  } 
+#small-loader{
+  margin: auto;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 0.2rem solid #ffffffa9;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
 
-  #post{
-    min-width: 500px;
+@keyframes rotation {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+} 
+
+*::-webkit-scrollbar {
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #07834f58;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #078350;
+  border-radius: 1em;
+}
+
+#post-container{
+  margin-top: 8em;
+}
+
+#post{
+  min-width: 200px;
+  max-width: 400px;
+  
+}
+
+.post-image{
+  min-width: 300px;
+  min-height: 250px;
+  max-width: 350px;
+  
+}
+
+.svg-clickable:hover{
+  opacity: 0.9;
+}
+
+#comments{
+  min-width: 400px;
+  max-height: inherit;
+  overflow-y: scroll;
+}
+
+@media (max-width: 900px){
+  #post-container{
+    flex-direction: column;
+    gap: 1em;
+    justify-content: space-evenly;
+    max-height: none;
+    margin-top: 5em;
+  }
+   #comments{
+    border: none;
+    margin-top: 3em;
+    padding-top: 1em;
+    border-top: 1px solid #cec5c59c;
     min-height: 400px;
-  }
+    max-height: 400px;
+   }
+}

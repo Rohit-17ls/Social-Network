@@ -5,10 +5,12 @@ export default {
     extend: {
       colors: {
         bgcolor : '#181a1b',
-        bglight : '#2f3031',
+        bglight : '#2b2a2aad',
         fgcolor : '#c9c9c9',
         themecolor : '#078350',
-        grayedcolor : '#989cad'
+        grayedcolor : '#cec5c59c',
+        tagcolor: '#02f798',
+        errorcolor: '#ee0303'
       }
     },
   },
