@@ -60,6 +60,7 @@ module.exports.loginHandler = async(req, res, next) => {
         connection.release();
 
         const token = createToken(username);
+        // res.cookie('username', userRow, {httpOnly:false, maxAge: 3*24*60*60*1000, secure: true});
         res.status(200).cookie('jwt', token, {httpOnly:false, maxAge: 3*24*60*60*1000, secure: true});
         res.json({loggedIn : true, error: ''});
         

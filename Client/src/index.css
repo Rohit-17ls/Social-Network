@@ -22,11 +22,11 @@
 
 a {
   font-weight: 500;
-  color: #066940;
+  color: #015b7f;
   text-decoration: underline;
 }
 a:hover {
-  color: #08995d;
+  opacity: 0.9;
 }
 
 body {
@@ -79,6 +79,7 @@ div{
 }
 
 #loader {
+  margin: auto;
   width: 48px;
   height: 48px;
   border: 5px solid #FFF;
@@ -97,3 +98,8 @@ div{
       transform: rotate(360deg);
   }
   } 
+
+  #post{
+    min-width: 500px;
+    min-height: 400px;
+  }

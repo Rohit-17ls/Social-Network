@@ -10,8 +10,8 @@ router.get('/api/newpost/get_signature', (req, res, next) => {
     postCreationController.get_signature(req, res, next);
 });
 
-router.post('/api/newpost/save_image', (req, res, next) => {
-    postCreationController.save_image(req, res, next);
+router.post('/api/newpost/make_post', authMiddleware, (req, res, next) => {
+    postCreationController.make_post(req, res, next);
 });
 
 module.exports = router;

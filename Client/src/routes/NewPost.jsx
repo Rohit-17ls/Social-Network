@@ -4,6 +4,8 @@ import { AuthContext } from '../context/AuthContext';
 import useAuthorize from '../hooks/useAuthorize';
 import Spinner from '../components/Spinner';
 import axios from 'axios'
+import Tag from '../components/Tag';
+import {Link, useNavigate } from 'react-router-dom';
 
 
 const LinkField = ({id, setPostData, postData}) => {
@@ -39,6 +41,9 @@ const NewPost = () => {
   const authorize = useAuthorize();
   const {getCredentials, getAuthState : isAuthorized, setAuthState} = useContext(AuthContext);
   const [isAuthorizing, setIsAuthorizing] =  useState(true);
+
+  const [postStatus, setPostStatus] = useState({status : '', isPosted : false});
+  const navigate = useNavigate();
  
   const [postData, setPostData] = useState({
                                             image : '',
@@ -47,9 +52,10 @@ const NewPost = () => {
                                             tags: []
                                           })
 
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(undefined);
   const inputRef = useRef();
   const imgRef = useRef();
+  const postTextRef = useRef();
   const cloudName = 'duoljv54r';
   const BACKEND_API_URL = `http://localhost:3000/api/newpost`;
 
@@ -63,43 +69,86 @@ const NewPost = () => {
     setPostData(prevState => { return {...prevState, tags : [...prevState.tags, '']} })
   }
 
-  const sendImageToServer = async (res) => {
-    console.log(res.data.url.split('upload/'));
-    setImage(res.data.url);
-
+  const sendDataToServer = async (res) => {
+    
+    
     try{
-      const imgData = res.data.url.split('upload/')[1].split('/');
+      let imgData;
+      if(res){
+        console.log(res.data.url.split('upload/'));
+        imgData = res.data.url.split('upload/')[1].split('/');
+      }else{
+        imgData = [0, 0, 0]
+      }
 
-      res = await fetch(`${BACKEND_API_URL}/save_image`, {
+      console.log({version: imgData[0],
+        folderName: imgData[1],
+        publicID : imgData[2], 
+        text : postData.text,
+        links: postData.links, 
+        tags : postData.tags});
+
+      res = await fetch(`${BACKEND_API_URL}/make_post`, {
         method : 'POST',
         credentials: 'include',
         headers: {
           'Content-Type' : 'application/json'
         },
-        body : JSON.stringify({version: imgData[0], folderName: imgData[1], publicID : imgData[2]})
+        body : JSON.stringify({img_version: imgData[0],
+                               img_folder_name: imgData[1],
+                               img_public_id : imgData[2], 
+                               text_content : postData.text,
+                               links: postData.links, 
+                               tags : postData.tags})
       })
+
+      res = await res.json();
+      setPostStatus(res);
 
     }catch(err){
       console.log("Something went wrong", err);
     }
   }
 
-  const uploadImage =  async (e) => {
-    e.preventDefault()
-    const file = inputRef.current.files[0];
-    const formData = new FormData();
-    formData.append('file', file)
-    formData.append('upload_preset', 'cd70zixl');
 
-    let res = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, formData)
-    .then(res => sendImageToServer(res))
-    .catch(err => console.log(err));
-
-}
 
   const updateImagePreview = (e) => {
     const file = inputRef.current.files[0];
     imgRef.current.src = URL.createObjectURL(file);
+    setImage(1);
+  }
+
+  const makePost = async() => {
+    if(image){
+
+      const file = inputRef.current.files[0];
+      const formData = new FormData();
+      formData.append('file', file)
+      formData.append('upload_preset', 'cd70zixl');
+  
+      const res = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, formData)
+      .then(res => sendDataToServer(res))
+      .catch(err => console.log(err));
+    }else{
+      sendDataToServer(0);
+    }
+  }
+
+  // Add a proper way to remove and re-add images
+  const removeImage = () => {
+    imgRef.current.src = null;
+    console.log(inputRef.current.files);
+    inputRef.current.files = null;
+    console.log(inputRef.current.files);
+    setImage(0);
+  }
+
+  const populatePostText = (e) => {
+    setPostData(prevData => {return {...prevData, text: e.target.value}});
+    const regexp = /@[a-zA-Z0-9]*/g;
+    postTextRef.current.innerHTML = e.target.value.replace(regexp, (match, index) => {
+      return `<a href='/user/${match.slice(1,)}' class='text-themecolor font-semibold no-underline'>${match}</a>`
+    })
   }
 
 
@@ -140,10 +189,10 @@ const NewPost = () => {
                   <strong>Image :</strong>
                 </td>
                 <td colSpan={2} className='hover:bg-bglight'>
-                  <form id="upload-form" className='border-solid border-bglight border rounded -xl p-4 m-6' onSubmit={uploadImage} onChange={updateImagePreview}>
+                  <form id="upload-form" className='border-solid border-bglight border rounded -xl p-4 m-6' onChange={updateImagePreview}>
                     <input id="file-field" type="file" ref={inputRef}/>
-                    <button className='bg-themecolor'>Upload</button>
                   </form>
+                  <button onClick={removeImage}>Remove Image</button>
                 </td>
               </tr>
 
@@ -152,7 +201,7 @@ const NewPost = () => {
                     <strong>Textual Content :</strong>
                 </td>
                 <td colSpan={2}>
-                    <textarea className='bg-bglight outline-none w-full m-6 p-2' onChange={(e) => {setPostData(prevData => {return {...prevData, text: e.target.value}})}}></textarea>
+                    <textarea className='bg-bglight outline-none w-full m-6 p-2' onChange={populatePostText}></textarea>
                 </td>
               </tr>
 
@@ -160,7 +209,7 @@ const NewPost = () => {
                 <td>
                   <strong>Links : </strong>
                 </td>
-                <td className='flex flex-col justify-center items-center hover:bg-bglight'>
+                <td className='flex flex-col justify-center items-center hover:bg-bglight p-3'>
                   {postData.links.map((link, id) => <LinkField key={id} id={id} setPostData = {setPostData} postData = {postData}/>)}
                   <button onClick={addLink}> + Add Link</button>
                 </td>
@@ -170,9 +219,15 @@ const NewPost = () => {
                 <td>
                   <strong>Tagged : </strong>
                 </td>
-                <td className='flex flex-col justify-center items-center hover:bg-bglight'>
+                <td className='flex flex-col justify-center items-center hover:bg-bglight p-3'>
                   {postData.tags.map((tag, id) => <TagField key={id} id={id} setPostData = {setPostData} postData = {postData}/>)}
                   <button onClick={addTag}> + Add Tag @</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td colSpan={3}>
+                  <button className= 'w-2/3 rounded-3xl m-5' onClick={makePost}>Post</button>
                 </td>
               </tr>
 
@@ -180,15 +235,26 @@ const NewPost = () => {
 
             </table>
 
-            <div className='border border-solid border-bglight w-1/3 h-fit'>
+            <div className='border border-solid border-themecolor w-1/3 h-fit bg-bglight p-2'>
               <strong className='text-3xl'>Preview</strong>
               <div className='w-full h-fit my-5 flex flex-col justify-center items-center gap-3'>
-                <img ref={imgRef} className='w-5/6 aspect-[15/16] mb-4'></img>
-                <div className='w-5/6 h-fit text-xl text-ellipsis'>{postData.text}</div>
-                {postData.links.map((link, id) => <a href={link} key={id}>{link}</a>)}
-                {postData.tags.map((tag, id) => <span className='text-themecolor font-semibold'>@{tag}</span>)}
+                <img ref={imgRef} className={`${image ? 'w-5/6' : 'w-0'} aspect-[15/16] mb-4`}></img>
+                <div className='w-5/6 h-fit text-xl text-left text-clip' ref={postTextRef}></div>
+                <div className='w-5/6 text-left'>
+                 {postData.links.map((link, id) => <a target="_blank" className='block' href={link} key={id}>{link}</a>)}
+                </div>
+                <div className='w-5/6 text-left'>
+                  {postData.tags.map((tag, id) => <Tag  key={id} tagName={tag}/>)}
+                </div>
 
               </div>
+
+              {!postStatus.isPosted ?
+               <strong className={`text-2xl text-red-500`}>{postStatus.status}</strong>
+               : <strong className={`text-2xl ${!postStatus.isPosted ? 'text-red-500' : 'text-white'}`}>
+                  {postStatus.status} <Link to={`/post/${postStatus.post_id}`}>Check post</Link>
+                  </strong>
+              }
             </div>
           </section>
 

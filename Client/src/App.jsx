@@ -8,6 +8,7 @@ import Profile from './routes/Profile'
 import NotFound from './routes/NotFound'
 import NewPost from './routes/NewPost'
 import Navbar from './components/Navbar'
+import Post from './routes/Post'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/user/:username" element={<Profile/>}/>
             <Route path="/new/post" element={<NewPost/>}/>
+            <Route path="/post/:postID" element={<Post/>}/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
       </AuthContextProvider>
