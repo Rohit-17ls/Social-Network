@@ -6,18 +6,20 @@ import Notification from './Notification';
 const Notifications = () => {
 
     const [isFetchingNotifications, setIsFetchingNotifications] = useState(true);
+    const [rerender, setRerender] = useState(0);
     const [notificationData, setNotificationData] = useState();
     const navigate = useNavigate();
 
     const markNotificationsAsRead = async() => {
         const res = await fetch('http://localhost:3000/api/delete/notifications', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type' : 'application/json'
-                },
-            });
-            const data = await res.json();
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+        });
+        const data = await res.json();
+        setRerender(!rerender);
     }
 
     useEffect(() => {
@@ -37,7 +39,7 @@ const Notifications = () => {
         }
 
         fetchNotifications();
-    }, [])
+    }, [rerender])
 
   return (
     <div>

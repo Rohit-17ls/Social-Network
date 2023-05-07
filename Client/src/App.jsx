@@ -11,6 +11,7 @@ import Navbar from './components/Navbar'
 import Post from './routes/Post'
 import NewGroup from './routes/NewGroup';
 import Group from './routes/Group';
+import Test from './routes/Test';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/new/group" element={<NewGroup/>}/>
             <Route path="/group/:groupname" element={<Group/>}/>
             <Route path="/post/:postID" element={<Post/>}/>
+            <Route path="/test" element={<Test/>}/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
       </AuthContextProvider>

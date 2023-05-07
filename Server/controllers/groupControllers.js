@@ -19,7 +19,7 @@ module.exports.createGroup = async(req, res, next) => {
         const group_id = getHash('group_id', req.body.groupname);
 
         const connection = await pool.getConnection();
-        const query1 = `INSERT INTO groups(group_id, owner_id, groupname, description, img_public_id, img_folder_name, img_version, member_count) VALUES('${group_id}', '${owner_id}', '${groupname}', ${connection.escape(description)} ,'${img_public_id}', '${img_folder_name}', '${img_version}', ${tags.length + 1} );`;
+        const query1 = `INSERT INTO groups(group_id, owner_id, groupname, description, img_public_id, img_folder_name, img_version) VALUES('${group_id}', '${owner_id}', '${groupname}', ${connection.escape(description)} ,'${img_public_id}', '${img_folder_name}', '${img_version}');`;
         let [result] = await connection.execute(query1);
 
         let query2;
@@ -30,11 +30,14 @@ module.exports.createGroup = async(req, res, next) => {
         }
         [result] = await connection.execute(query2);
 
+        let query3 = `INSERT INTO user_groups(group_id, user_id, group_type) VALUES('${group_id}', '${owner_id}', '${req.body.groupType}');`;
+        [result] =  await connection.execute(query3);
+
         if(tags.length){
             for(let tag of tags){
                 const user_id = getHash('user_id', tag);
                 req.body.groupType ||= 'public';
-                const query3 = `INSERT INTO user_groups(group_id, user_id, group_type) VALUES('${group_id}', '${user_id}', '${req.body.groupType}');`;
+                query3 = `INSERT INTO user_groups(group_id, user_id, group_type) VALUES('${group_id}', '${user_id}', '${req.body.groupType}');`;
                 [result] =  await connection.execute(query3);
             }
         }
@@ -59,14 +62,15 @@ module.exports.retreiveGroupData = async(req, res, next) => {
         let groupAssociation = [0, 0];
         
         const connection = await pool.getConnection();
-        const query1 = `SELECT count(*) FROM public_groups WHERE group_id = '${group_id}';`
+        const query1 = `SELECT count(*) as count FROM public_groups WHERE group_id = '${group_id}';`
         const [rows1, field1] = await connection.execute(query1);
-        groupAssociation[1] = (rows1.length); // 1 -> Group is public and exists,  0 -> Group does not exist or Group is private
+        groupAssociation[1] = (rows1[0].count); // 1 -> Group is public and exists,  0 -> Group does not exist or Group is private
 
         const query2 = `SELECT 1 AS is_member from user_groups where user_id = '${user_id}' AND group_id = '${group_id}';`;
         const [rows2, field2] = await connection.execute(query2);
         groupAssociation[0] = rows2.length;
-        groupAssociation.join('');
+        groupAssociation = groupAssociation.join('');
+        console.log(groupAssociation);
 
         if(groupAssociation === '00'){
             connection.release();
@@ -74,18 +78,22 @@ module.exports.retreiveGroupData = async(req, res, next) => {
             return;
         }
         
-        const query3 = `SELECT groupname, description, img_folder_name, img_public_id, img_version, member_count, created_at from groups where group_id = '${group_id}';`;
-        console.log(query3);
+        const query3 = `SELECT groupname, description, (SELECT username FROM users WHERE user_id = groups.owner_id) as owner_name, img_folder_name, img_public_id, img_version, member_count, created_at from groups where group_id = '${group_id}';`;
+        // console.log(query3);
         const [rows3, field3] = await connection.execute(query3);
         
         const query4 = `SELECT (select username from users where user_id = user_groups.user_id) as username from user_groups where group_id = '${group_id}';`;
-        console.log(query4);
+        // console.log(query4);
         const [rows4, fields4] = await connection.execute(query4);
         
         /*  Fetch group posts */
         connection.release();
         
-        res.json({isFetched: true, ...rows3[0], isMember: groupAssociation === '01' ? false : true, users: rows4});
+        res.json({isFetched: true, ...rows3[0], 
+                  isMember: groupAssociation[0] === '1',
+                  isOwner: rows3[0].owner_name ===  username,
+                  group_type : groupAssociation[1] === '1' ? 'public' : 'private',
+                  users: rows4});
         return;
         
     }catch(err){
@@ -124,11 +132,65 @@ module.exports.deleteNotifications = async(req, res, next) => {
         const [result] = await connection.execute(query);
         connection.release();
 
-        console.log(rows);
+        console.log(result);
         res.json({isDeleted : true});
         
     }catch(err){
         console.log(err);
         res.json({isDeleted : true});
+    }
+}
+
+module.exports.addMember = async(req, res, next) => {
+    try{
+        const newMemberName = req.body.memberName;
+        const group_id = getHash('group_id', req.body.groupname);
+
+        const connection = await pool.getConnection();
+        const query1 = `SELECT count(*) as count, user_id from users where username = '${newMemberName}';`;
+        const [rows1, fields1] = await connection.execute(query1);
+        console.log(rows1);
+        
+        if(rows1[0].count === 0){
+            res.json({isAdded: false, status : 'User not found'});
+            return;
+        }
+        
+        const query2 = `INSERT INTO user_groups values('${group_id}', '${rows1[0].user_id}', '${req.body.groupType}');`;
+        const [rows2, fields2] = await connection.execute(query2);
+        
+        res.json({isAdded: true, status : `Added @${newMemberName}`});
+        
+    }catch(err){
+        console.log(err);
+        res.json({isAdded: false, status : 'Something went wrong'});
+
+    }
+}
+
+module.exports.removeMember = async(req, res, next) => {
+    try{
+        const newMemberName = req.body.memberName;
+        const group_id = getHash('group_id', req.body.groupname);
+
+        const connection = await pool.getConnection();
+        const query1 = `SELECT count(*) as count, user_id from users where username = '${newMemberName}';`;
+        const [rows1, fields1] = await connection.execute(query1);
+        console.log(rows1);
+        
+        if(rows1[0].count === 0){
+            res.json({isRemoved: false, status : 'User not found'});
+            return;
+        }
+        
+        const query2 = `DELETE FROM user_groups WHERE group_id = '${group_id}' AND user_id = '${rows1[0].user_id}';`;
+        const [rows2, fields2] = await connection.execute(query2);
+        
+        res.json({isRemoved: true, status : `Removed @${newMemberName}`});
+        
+    }catch(err){
+        console.log(err);
+        res.json({isRemoved: false, status : 'Something went wrong'});
+
     }
 }

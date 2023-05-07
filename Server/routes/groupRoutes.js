@@ -20,6 +20,14 @@ router.post('/api/delete/notifications', authMiddleware ,async(req, res, next) =
     groupController.deleteNotifications(req, res, next);
 });
 
+router.post('/api/add/member', authMiddleware, async(req, res, next) => {
+    groupController.addMember(req, res, next);
+});
+
+router.post('/api/remove/member', authMiddleware, async(req, res, next) => {
+    groupController.removeMember(req, res, next);
+});
+
 
 
 

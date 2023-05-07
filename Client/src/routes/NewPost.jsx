@@ -148,6 +148,8 @@ const NewPost = () => {
     const regexp = /@[a-zA-Z0-9_-]*/g;
     postTextRef.current.innerHTML = e.target.value.replace(regexp, (match, index) => {
       return `<a href='/user/${match.slice(1,)}' class='text-tagcolor font-semibold no-underline'>${match}</a>`
+    }).replace(/&[a-zA-Z0-9_-]*/g, (match, ind) => {
+      return `<a href='/group/${match.slice(1,)}' class='text-groupcolor font-semibold no-underline'>${match}</a>`;
     })
   }
 

@@ -1,18 +1,12 @@
 import React from 'react'
 import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SmartText from './SmartText';
 
 const Comment = ({commentData, id}) => {
 
-    const commentRef = useRef();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        commentRef.current.innerHTML = commentData.comment.replace(/@[a-zA-Z0-9_-]*/g, (match, id) => {
-            return `<a href='/user/${match.slice(1,)}' class='text-tagcolor font-semibold no-underline'>${match}</a>`;
-        })
-
-    }, [])
 
 
   return (
@@ -21,8 +15,9 @@ const Comment = ({commentData, id}) => {
             <strong className='mr-3' onClick={() => { navigate(`/user/${commentData.username}`)}}>{commentData.username}</strong>
             <span className='text-grayedcolor'>{new Date(commentData.time_stamp).toLocaleString()}</span>
         </div>
-        <div className='m-3 ml-0 text-left' ref={commentRef}>
-            {commentData.comment}
+        
+        <div className='m-3 ml-0 text-left'>
+            <SmartText text={commentData.comment}/>
         </div>
         {/* <div className='p-2'>
             {commentData.data.likes}
