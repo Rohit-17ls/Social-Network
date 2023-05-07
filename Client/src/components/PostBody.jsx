@@ -6,7 +6,7 @@ const PostBody = ({data}) => {
     const postTextRef = useRef();
 
     useEffect(() => {
-        postTextRef.current.innerHTML = data.text_content.replace(/@[a-zA-Z0-9]*/g, (match, id) => {
+        postTextRef.current.innerHTML = data.text_content.replace(/@[a-zA-Z0-9_-]*/g, (match, id) => {
             return `<a href='/user/${match.slice(1,)}' class='text-tagcolor font-semibold no-underline'>${match}</a>`
         });
     }, []);

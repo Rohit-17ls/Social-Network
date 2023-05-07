@@ -10,7 +10,8 @@ export default {
         themecolor : '#078350',
         grayedcolor : '#cec5c59c',
         tagcolor: '#02f798',
-        errorcolor: '#ee0303'
+        errorcolor: '#ee0303',
+        groupcolor: '#e76306'
       }
     },
   },

@@ -1,0 +1,9 @@
+USERS:
+giannis, brian, laura, davis -> abcde12345@
+joe -> abcde12345#    ??
+
+
+GROUPS:
+
+giannis :: public group -> groupone     --- giannis, brian, laura
+brian :: private group -> VimEnthusiasts --- brian, davis, giannis

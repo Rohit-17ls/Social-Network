@@ -49,12 +49,55 @@ CREATE TABLE comments(post_id VARCHAR(256) NOT NULL,
                       FOREIGN KEY (commenter_id) REFERENCES users(user_id) ON DELETE CASCADE);
 
 /* vote_type : Like -> 'l' , Dislike -> 'd' */
-CREATE TABLE voters(user_id VARCHAR(256) NOT NULL,
+CREATE TABLE votes(user_id VARCHAR(256) NOT NULL,
                     post_id VARCHAR(256) NOT NULL,
                     vote_type VARCHAR(1) NOT NULL,
                     PRIMARY KEY (user_id, post_id),
                     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
                     FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE);
+
+CREATE TABLE groups(group_id VARCHAR(256) PRIMARY KEY NOT NULL,
+                    owner_id VARCHAR(256),
+                    groupname VARCHAR(255) NOT NULL,
+                    description VARCHAR(480),
+                    img_folder_name VARCHAR(128),
+                    img_public_id VARCHAR(128),
+                    img_version VARCHAR(128),
+                    member_count INT DEFAULT 1,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (owner_id) REFERENCES users(user_id));
+
+CREATE TABLE public_groups(group_id VARCHAR(256) PRIMARY KEY NOT NULL,
+                          moderator_count INT DEFAULT 0,
+                          FOREIGN KEY (group_id) REFERENCES groups(group_id) ON DELETE CASACADE);
+
+CREATE TABLE private_groups(group_id VARCHAR(256) PRIMARY KEY NOT NULL,
+                          agenda VARCHAR(800),
+                          FOREIGN KEY (group_id) REFERENCES groups(group_id) ON DELETE CASACADE);
+
+CREATE TABLE moderators(moderator_id VARCHAR(256) NOT NULL,
+                        group_id VARCHAR(256) NOT NULL,
+                        PRIMARY KEY (moderator_id, group_id),
+                        FOREIGN KEY (moderator_id) REFERENCES users(user_id) ON DELETE CASCADE,
+                        FOREIGN KEY (group_id) REFERENCES groups(group_id) ON DELETE CASCADE);
+
+
+CREATE TABLE user_groups(group_id VARCHAR(256) NOT NULL,
+                         user_id VARCHAR(256) NOT NULL,
+                         group_type VARCHAR(7) NOT NULL,
+                         PRIMARY KEY (group_id, user_id),
+                         FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+                         FOREIGN KEY (group_id) REFERENCES groups(group_id) ON DELETE CASCADE);
+
+CREATE TABLE notifications(user_id VARCHAR(256) NOT NULL,
+                           notification_id VARCHAR(256) NOT NULL,
+                           status VARCHAR(10) NOT NULL,
+                           message VARCHAR(140),
+                           time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                           PRIMARY KEY (user_id, notification_id),
+                           FOREIGN KEY (user_id) REFERENCES users(user_id));
+
+
 
 /* Tables
     posts - strong entity,

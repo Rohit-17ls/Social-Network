@@ -145,7 +145,7 @@ const NewPost = () => {
 
   const populatePostText = (e) => {
     setPostData(prevData => {return {...prevData, text: e.target.value}});
-    const regexp = /@[a-zA-Z0-9]*/g;
+    const regexp = /@[a-zA-Z0-9_-]*/g;
     postTextRef.current.innerHTML = e.target.value.replace(regexp, (match, index) => {
       return `<a href='/user/${match.slice(1,)}' class='text-tagcolor font-semibold no-underline'>${match}</a>`
     })

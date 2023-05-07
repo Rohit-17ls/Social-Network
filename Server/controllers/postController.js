@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const {pool} = require('../Database/connection.js');
 const crypto = require('crypto');
 require('dotenv').config();
@@ -25,6 +24,11 @@ module.exports.retrievePostData = async (req, res, next) => {
         const connection = await pool.getConnection();
         const query1 = `SELECT users.username, posts.text_content, posts.img_version, posts.img_folder_name, posts.img_public_id, posts.likes, posts.dislikes, posts.time_stamp FROM users INNER JOIN posts ON users.user_id = posts.creator_id AND posts.post_id = '${post_id}';`;
         const [rows1, fields1] = await connection.execute(query1);
+
+        if(!rows1.length){
+            res.json({isNotFound: true});
+            return;
+        }
         
         const data = {...rows1[0], links: [], tags: []};
 
@@ -39,13 +43,13 @@ module.exports.retrievePostData = async (req, res, next) => {
         
         for(let item of rows3) data.tags.push(item.tag);
         
-        // const query4 = 'SELECT count(vote_type) as votes, vote_type from voters group by vote_type order by vote_type;';
+        // const query4 = 'SELECT count(vote_type) as votes, vote_type from votes group by vote_type order by vote_type;';
         // const [rows4, fields4] = await connection.execute(query4);
         // console.log(rows4);
         
         let rows5, fields5;
         if(user_id !== null){
-            const query5 = `SELECT vote_type from voters where user_id = '${user_id}' AND post_id = '${post_id}';`;
+            const query5 = `SELECT vote_type from votes where user_id = '${user_id}' AND post_id = '${post_id}';`;
             [rows5, fields5] = await connection.execute(query5);
         }
         
@@ -118,6 +122,8 @@ module.exports.upvotePost = async(req, res, next) => {
         const query1 = `call upvote('${user_id}', '${post_id}');`;
         let [result] = await connection.execute(query1);
 
+        connection.release();
+
         res.json({updatedVote : true});
     }catch(err){
         console.log(err);
@@ -135,6 +141,8 @@ module.exports.downvotePost = async(req, res, next) => {
         const connection = await pool.getConnection();
         const query1 = `call downvote('${user_id}', '${post_id}');`;
         let [result] = await connection.execute(query1);
+
+        connection.release();
         
         res.json({downvoted : true});
     }catch(err){

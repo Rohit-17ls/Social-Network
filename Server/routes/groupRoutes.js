@@ -1,0 +1,26 @@
+const {Router} = require('express');
+const router = Router();
+const groupController = require('../controllers/groupControllers.js');
+const authMiddleware = require('../middleware/authMiddleware.js');
+
+router.post('/api/newgroup/make_group', authMiddleware ,async(req, res, next) => {
+    groupController.createGroup(req, res, next);
+});
+
+
+router.post('/api/group/:groupname', authMiddleware, async(req, res, next) => {
+    groupController.retreiveGroupData(req, res, next);
+})
+
+router.post('/api/notifications', authMiddleware ,async(req, res, next) => {
+    groupController.getNotifications(req, res, next);
+});
+
+router.post('/api/delete/notifications', authMiddleware ,async(req, res, next) => {
+    groupController.deleteNotifications(req, res, next);
+});
+
+
+
+
+module.exports = router;

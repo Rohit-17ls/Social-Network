@@ -8,7 +8,7 @@ const Comment = ({commentData, id}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        commentRef.current.innerHTML = commentData.comment.replace(/@[a-zA-Z0-9]*/g, (match, id) => {
+        commentRef.current.innerHTML = commentData.comment.replace(/@[a-zA-Z0-9_-]*/g, (match, id) => {
             return `<a href='/user/${match.slice(1,)}' class='text-tagcolor font-semibold no-underline'>${match}</a>`;
         })
 

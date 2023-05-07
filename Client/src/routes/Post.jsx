@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Spinner from '../components/Spinner';
 import Upvote from '../icons/Upvote';
@@ -7,8 +7,9 @@ import Bookmark from '../icons/Bookmark';
 import PostBody from '../components/PostBody';
 import CommentsIcon from '../icons/CommentsIcon';
 import Comments from '../components/Comments';
+import NeedsAuthentication from '../components/NeedsAuthentication';
+import NotFound from './NotFound';
 
-const lorem = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae ab consequuntur, voluptatibus optio, doloremque totam ut voluptatem fugiat in ratione doloribus modi cum natus eos perspiciatis repellat quam maxime quis!';
 
 const Post = () => {
 
@@ -16,7 +17,9 @@ const Post = () => {
     const navigate = useNavigate();
 
     const [postState, setPostState] = useState(false);
+    const [is404, setIs404] = useState(false);
     const [rerender, setRerender]= useState(1); // Merely to refresh post content after a vote action
+    const modalRef = useRef();
 
     const [data, setData] = useState({});
     const [imageURL, setImageURL] = useState(0);
@@ -32,9 +35,9 @@ const Post = () => {
         });
         res = await res.json();
         console.log(res);
-        if(res.unauthorized){
-            navigate('/login');
-        }
+        
+        
+        if(res.unauthorized) modalRef.current.showModal();
 
         setRerender(!rerender); // Forcing a re-run of useEffect
 
@@ -54,7 +57,12 @@ const Post = () => {
                 }
             });
             const data = await res.json();
-            data.text_content.replace(/@[a-zA-Z0-9]*/g, (match, index) => {
+            if(data.isNotFound){
+                setIs404(true);
+                return;
+            } 
+
+            data.text_content.replace(/@[a-zA-Z0-9_-]*/g, (match, index) => {
                 return `<a href='/user/${match.slice(1,)}' class='text-themecolor font-semibold no-underline'>${match}</a>`
               });
             console.log(data);
@@ -69,10 +77,13 @@ const Post = () => {
 
     }, [rerender]);
 
+    if(is404) return <NotFound/>;
+
   return (
     <>
+        <dialog ref={modalRef}><NeedsAuthentication message={"Sign up to cast your vote"}/></dialog>
         {!postState ? <Spinner/> : 
-        <div className='border border-solid border-grayedcolor bg-bglight w-fit m-auto  min-h-fit flex flex-row gap-3 px-3' id="post-container">
+        <div className='border border-solid border-grayedcolor bg-bglight w-fit m-auto  min-h-fit flex flex-row gap-3 pl-3' id="post-container">
            <div className='m-auto h-full px-3 my-0 min-h-fit' id="post">
                 <span className='p-5 block w-full text-left'>
                     <strong className='text-2xl' onClick={() => { navigate(`/user/@${data.username}`)}}>{data.username}</strong>

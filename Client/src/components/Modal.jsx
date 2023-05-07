@@ -1,8 +1,10 @@
 import React from 'react'
 
-const Modal = () => {
+const Modal = (props) => {
   return (
-    <div></div>
+    <diaglog ref={props.ref}>
+      {props.children}
+    </diaglog>
   )
 }
 
