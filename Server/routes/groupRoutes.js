@@ -9,7 +9,7 @@ router.post('/api/newgroup/make_group', authMiddleware ,async(req, res, next) =>
 
 
 router.post('/api/group/:groupname', authMiddleware, async(req, res, next) => {
-    groupController.retreiveGroupData(req, res, next);
+    groupController.retrieveGroupData(req, res, next);
 })
 
 router.post('/api/notifications', authMiddleware ,async(req, res, next) => {
@@ -28,6 +28,9 @@ router.post('/api/remove/member', authMiddleware, async(req, res, next) => {
     groupController.removeMember(req, res, next);
 });
 
+router.post('/api/groupposts', authMiddleware, async(req, res, next) => {
+    groupController.retrieveGroupPosts(req, res, next);
+});
 
 
 

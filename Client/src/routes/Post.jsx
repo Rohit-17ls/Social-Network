@@ -57,7 +57,8 @@ const Post = () => {
                 }
             });
             const data = await res.json();
-            if(data.isNotFound){
+            console.log(data);
+            if(!data.isRetrieved){
                 setIs404(true);
                 return;
             } 

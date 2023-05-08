@@ -16,17 +16,33 @@ module.exports.retrievePostData = async (req, res, next) => {
         let user_id = null;
 
         if(req.cookies.jwt){
-            console.log('Logged in');
+            console.log('Logged in'); 
             const username = JSON.parse(Buffer.from(req.cookies.jwt.split('.')[1], 'base64').toString()).username;
             user_id = getHash('user_id', username);
         }
 
         const connection = await pool.getConnection();
+
+        // Check if the user can access this post
+        const query01 = `SELECT is_private FROM posts WHERE post_id = '${post_id}';`;
+        const [rows01, fields01] = await connection.query(query01);
+
+        if(rows01[0].is_private === '1'){
+            const query02 = `SELECT count(*) as can_access FROM user_groups INNER JOIN group_posts ON user_groups.group_id = group_posts.group_id AND user_groups.user_id = '${user_id}' AND group_posts.post_id = '${post_id}';`;
+            const [rows02, fields02] = await connection.execute(query02);
+            if(!rows02[0].can_access){
+                console.log('Cannot access');
+                res.json({status : "Couldn't find the post you're looking for", isRetrieved : false});
+                return;
+            }
+        }
+
+
         const query1 = `SELECT users.username, posts.text_content, posts.img_version, posts.img_folder_name, posts.img_public_id, posts.likes, posts.dislikes, posts.time_stamp FROM users INNER JOIN posts ON users.user_id = posts.creator_id AND posts.post_id = '${post_id}';`;
         const [rows1, fields1] = await connection.execute(query1);
 
         if(!rows1.length){
-            res.json({isNotFound: true});
+            res.json({isRetrieved: false});
             return;
         }
         
@@ -58,14 +74,14 @@ module.exports.retrievePostData = async (req, res, next) => {
 
 
         res.json({status : "Fetched post data", 
-                  isRetreived : true,
+                isRetrieved : true,
                    ...data,
                   userVote : user_id && rows5.length ? rows5[0].vote_type : null // Current users's vote
                   });
 
     }catch(err){
         console.log(err);
-        res.json({status : "Couldn't find the post you're looking for", isRetreived : false});
+        res.json({status : "Couldn't find the post you're looking for", isRetrieved : false});
     }
 }
 
@@ -81,11 +97,11 @@ module.exports.retrievePostComments = async(req, res, next) => {
         const data = rows;
         connection.release();
 
-        res.json({status : "Fetched post comments", isRetreived : true, comments: data});
+        res.json({status : "Fetched post comments", isRetrieved : true, comments: data});
 
     }catch(err){
         console.log(err);
-        res.json({status : "Couldn't find the post you're looking for", isRetreived : false});
+        res.json({status : "Couldn't find the post you're looking for", isRetrieved : false});
     }
 }
 
