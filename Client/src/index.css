@@ -42,7 +42,11 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+td{
+  min-width: 30px;
+}
+
+button, button[type="button"] {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -152,6 +156,10 @@ div{
   overflow-y: scroll;
 }
 
+#post-data, #group-data{
+  transition: all 0.5s ease-in-out;
+}
+
 @media (max-width: 900px){
   #post-container{
     flex-direction: column;
@@ -167,5 +175,18 @@ div{
     border-top: 1px solid #cec5c59c;
     min-height: 400px;
     max-height: 400px;
+   }
+
+   #post-data, #group-data{
+    width: 95%;
+   }
+
+   #preview-post, #preview-group{
+    width: 80%;
+   }
+
+   #new-post, #new-group{
+     flex-direction: column-reverse;
+     align-items: center;
    }
 }

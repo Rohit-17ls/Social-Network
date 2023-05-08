@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner';
 import axios from 'axios'
 import Tag from '../components/Tag';
 import {Link, useNavigate } from 'react-router-dom';
+import GroupTag from '../components/GroupTag';
 
 
 const LinkField = ({id, setPostData, postData}) => {
@@ -43,7 +44,10 @@ const NewPost = () => {
   const [isAuthorizing, setIsAuthorizing] =  useState(true);
 
   const [postStatus, setPostStatus] = useState({status : '', isPosted : false});
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const addGroupsRef = useRef();
+  const [userGroups, setUserGroups] = useState([]);
+  const [selectedGroups, setSelectedGroups] = useState([]);
  
   const [postData, setPostData] = useState({
                                             image : '',
@@ -99,8 +103,9 @@ const NewPost = () => {
                                img_public_id : imgData[2], 
                                text_content : postData.text,
                                links: postData.links, 
-                               tags : postData.tags})
-      })
+                               tags : postData.tags,
+                               groups: selectedGroups.filter(group => { return group !== undefined})})
+      });
 
       res = await res.json();
       setPostStatus(res);
@@ -168,9 +173,26 @@ const NewPost = () => {
       
     }
 
+    const getUserGroups = async() => {
+      const res = await fetch(`${BACKEND_API_URL}/usergroups`, {
+        method : 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      });
+
+      const data = await res.json();
+      if(!data.isFetched){
+        setUserGroups(['Something went wrong']);
+      }
+      setSelectedGroups(new Array(data.groups.length).fill(undefined));
+      setUserGroups(data.groups);
+    }
+
     
     checkAuthorization();
-
+    getUserGroups();
 
   }, []);
 
@@ -181,8 +203,8 @@ const NewPost = () => {
         (isAuthorizing ? <Spinner/> : <NeedsAuthentication/>) :
         <div className='my-20 w-full'>
 
-          <section className = 'w-full flex flex-row justify-evenly gap-5'>
-            <table className='m-10 w-1/2 border-separate border-spacing-10'>
+          <section className = 'w-full flex flex-row justify-evenly gap-5' id="new-post">
+            <table className='mx-10 w-1/2 border-separate border-spacing-10' id="post-data">
               <tr>
                 <th colSpan={3}><strong className = 'text-3xl'>NEW POST</strong></th>
               </tr>
@@ -228,6 +250,15 @@ const NewPost = () => {
               </tr>
 
               <tr>
+                <td>
+                  <strong>Groups : </strong>
+                </td>
+                <td className='flex flex-col justify-center items-center hover:bg-bglight p-3'>
+                  <button onClick={() => {addGroupsRef.current.showModal()}} title="Post this post to the selected groups">Pick groups to post</button>
+                </td>
+              </tr>
+
+              <tr>
                 <td colSpan={3}>
                   <button className= 'w-2/3 rounded-3xl m-5' onClick={makePost}>Post</button>
                 </td>
@@ -237,10 +268,10 @@ const NewPost = () => {
 
             </table>
 
-            <div className='border border-solid border-tagcolor w-1/3 h-fit bg-bglight p-2'>
+            <div className='border border-solid border-tagcolor w-1/3 h-fit bg-bglight p-2' id="preview-post">
               <strong className='text-3xl'>Preview</strong>
               <div className='w-full h-fit my-5 flex flex-col justify-center items-center gap-3'>
-                <img ref={imgRef} className={`${image ? 'w-5/6' : 'w-0'} aspect-[15/16] mb-4`}></img>
+                <img ref={imgRef} className={`${image ? 'w-5/6' : 'w-0'} aspect-[15/16] mb-4 rounded-lg border-2 border-solid border-themecolor`}></img>
                 <div className='w-5/6 h-fit text-xl text-left text-clip' ref={postTextRef}></div>
                 <div className='w-5/6 text-left'>
                  {postData.links.map((link, id) => <a target="_blank" className='block' href={link} key={id}>{link}</a>)}
@@ -259,6 +290,34 @@ const NewPost = () => {
               }
             </div>
           </section>
+
+          <dialog ref={addGroupsRef}>
+              <div className='p-3 text-left h-max-[30vh] overflow-y-scroll'>
+                <strong className='block w-full text-2xl text-center mb-4'>Pick Groups</strong>
+                {userGroups.map((group, id) => 
+                    <div className='m-2' key={id}>
+                      <input type="checkbox"
+                             name={group.groupname} 
+                             onChange={(e) => {
+                                setSelectedGroups(prevState => {
+                                     const updatedState = prevState.map((x, ind) => {
+                                      if(ind === id){
+                                        return e.target.checked ? group.groupname : undefined;
+                                      }else{
+                                        return x;
+                                      }
+                                     });
+                                     return updatedState;
+                                })
+                              }}
+                      />
+                      <label className='m-2' htmlFor={group.groupname}>{group.groupname}</label>
+                      <GroupTag tagName={group.groupname}/>
+                    </div>
+                )}
+              </div>
+              <button type="button" onClick={() => {addGroupsRef.current.close(); console.log(selectedGroups)}}>Done</button>
+          </dialog>
 
         </div>
     }

@@ -14,4 +14,8 @@ router.post('/api/newpost/make_post', authMiddleware, (req, res, next) => {
     postCreationController.make_post(req, res, next);
 });
 
+router.post('/api/newpost/usergroups', authMiddleware, async(req, res, next) => {
+    postCreationController.userGroups(req, res, next);
+})
+
 module.exports = router;

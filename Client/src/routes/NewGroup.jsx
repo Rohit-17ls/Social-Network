@@ -153,8 +153,8 @@ const NewGroup = () => {
             (isAuthorizing ? <Spinner/> : <NeedsAuthentication/>) :
             <div className='my-20 w-full'>
     
-              <section className = 'w-full flex flex-row justify-evenly gap-5'>
-                <table className='m-10 w-1/2 border-separate border-spacing-10'>
+              <section className = 'w-full flex flex-row justify-evenly gap-5' id="new-group">
+                <table className='m-10 w-1/2 border-separate border-spacing-10' id="group-data">
                   <tr>
                     <th colSpan={3}><strong className = 'text-3xl'>NEW GROUP</strong></th>
                   </tr>
@@ -228,7 +228,7 @@ const NewGroup = () => {
     
                 </table>
                 
-                <div className='border border-solid border-tagcolor w-1/3 h-fit bg-bglight p-2'>
+                {!groupData.tags.length ? <></> : <div className='border border-solid border-tagcolor w-1/3 h-fit bg-bglight p-2' id="preview-group">
                     <strong className='text-3xl'>Members (Provisional)</strong>
                     <div className='w-full text-left flex flex-col text-2xl justify-evenly'>
                     {groupData.tags.map((tag, id) => <span className='border-b border-grayedcolor p-3'  key={id}><Tag tagName={tag}/></span>)}
@@ -239,7 +239,7 @@ const NewGroup = () => {
                       {groupStatus.status} <Link to={`/group/${groupStatus.groupname}`}>View Group</Link>
                       </strong>
                   }
-                </div>
+                </div>}
     
                 {/* <div className='border border-solid border-tagcolor w-1/3 h-fit bg-bglight p-2'>
                   <div className='w-full h-fit my-5 flex flex-col justify-center items-center gap-3'>

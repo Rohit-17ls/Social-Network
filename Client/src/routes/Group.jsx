@@ -135,8 +135,8 @@ const Group = () => {
           {newMember && <strong>Add <Tag tagName={newMember}/></strong>}
           {fetchingState ? <SmallSpinner/> :
             <div>
-              <button className='m-3' onClick={addMember}>Add</button>
-              <button onClick={() => {addMemberRef.current.close()}}>Cancel</button>
+              <button type="button" className='m-3' onClick={addMember}>Add</button>
+              <button type="button" onClick={() => {addMemberRef.current.close()}}>Cancel</button>
             </div>
           }
         </div>
@@ -149,8 +149,8 @@ const Group = () => {
           {newMember && <strong>Remove <Tag tagName={newMember}/></strong>}
           {fetchingState ? <SmallSpinner/> :
             <div>
-              <button className='m-3 bg-red-500' onClick={removeMember}>Remove</button>
-              <button onClick={() => {removeMemberRef.current.close()}}>Cancel</button>
+              <button type="button" className='m-3' style={{background: '#ef4444'}} onClick={removeMember}>Remove</button>
+              <button type="button" onClick={() => {removeMemberRef.current.close()}}>Cancel</button>
             </div>
           }
         </div>
@@ -218,7 +218,7 @@ const Group = () => {
                         )}
 
                       </div>
-                      <button className='m-2' onClick={() => {groupMembersRef.current.close()}}>close</button>
+                      <button className='m-2' type="button" onClick={() => {groupMembersRef.current.close()}}>close</button>
                   </div>
               </dialog>
              

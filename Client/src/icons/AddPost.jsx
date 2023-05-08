@@ -9,6 +9,7 @@ const AddPost = () => {
     height="21px"
     viewBox="0 0 21 21"
     version="1.1"
+    className='svg-clickable'
   >
     <g id="surface1">
       <path

@@ -9,6 +9,7 @@ const RemoveUser = () => {
     height="22px"
     viewBox="0 0 22 22"
     version="1.1"
+    className='svg-clickable'
   >
     <g id="surface1">
       <path

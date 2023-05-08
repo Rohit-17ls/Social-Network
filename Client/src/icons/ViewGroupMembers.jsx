@@ -9,6 +9,7 @@ const ViewGroupMembers = () => {
     height="35px"
     viewBox="0 0 35 35"
     version="1.1"
+    className='svg-clickable'
   >
     <g id="surface1">
       <path

@@ -27,6 +27,7 @@ CREATE TABLE posts(post_id VARCHAR(256) PRIMARY KEY NOT NULL,
                    time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                    likes INT DEFAULT 0,
                    dislikes INT DEFAULT 0,
+                   is_private CHAR(1) DEFAULT '0',
                    FOREIGN KEY (creator_id) REFERENCES users(user_id) ON DELETE CASCADE);
 
 CREATE TABLE post_links(post_id VARCHAR(256),
@@ -96,6 +97,13 @@ CREATE TABLE notifications(user_id VARCHAR(256) NOT NULL,
                            time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                            PRIMARY KEY (user_id, notification_id),
                            FOREIGN KEY (user_id) REFERENCES users(user_id));
+
+CREATE TABLE group_posts(group_id VARCHAR(256) NOT NULL,
+                         post_id VARCHAR(256) NOT NULL,
+                         PRIMARY KEY (group_id, post_id),
+                         FOREIGN KEY (group_id) REFERENCES groups(group_id) ,
+                         FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
+                         );
 
 
 
