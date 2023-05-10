@@ -226,7 +226,7 @@ module.exports.retrieveGroupPosts = async(req, res, next) => {
             return;
         }
 
-        const query3 = `SELECT posts.post_id, users.username, posts.img_folder_name, posts.img_version, posts.img_public_id, posts.text_content, posts.time_stamp, posts.likes, posts.dislikes FROM posts INNER JOIN group_posts INNER JOIN users ON posts.post_id = group_posts.post_id  AND users.user_id = posts.creator_id AND group_posts.group_id = '${group_id}' order by ${ordering === 'Recent' ? 'posts.time_stamp' : 'posts.likes + posts.dislikes'} LIMIT 3 OFFSET ${offset};`;
+        const query3 = `SELECT posts.post_id, users.username, posts.img_folder_name, posts.img_version, posts.img_public_id, posts.text_content, posts.time_stamp, posts.likes, posts.dislikes FROM posts INNER JOIN group_posts INNER JOIN users ON posts.post_id = group_posts.post_id  AND users.user_id = posts.creator_id AND group_posts.group_id = '${group_id}' order by ${ordering === 'Recent' ? 'posts.time_stamp' : 'posts.likes + posts.dislikes'} desc LIMIT 3 OFFSET ${offset};`;
         console.log(query3);
         const [rows3, fields3] = await connection.execute(query3);
 

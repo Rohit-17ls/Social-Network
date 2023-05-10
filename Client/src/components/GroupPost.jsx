@@ -6,7 +6,7 @@ import PostBody from '../components/PostBody';
 import CommentsIcon from '../icons/CommentsIcon';
 import { useNavigate } from 'react-router-dom';
 
-const GroupPost = ({data, rerender, setRerender}) => {
+const GroupPost = ({data, refetch, setRefetch, rerender, setRerender}) => {
 
     
     const [imageURL, setImageURL] = useState('');
@@ -28,7 +28,8 @@ const GroupPost = ({data, rerender, setRerender}) => {
         
         if(res.unauthorized) modalRef.current.showModal();
 
-        setRerender(!rerender); // Forcing a re-run of useEffect
+        setRefetch(!refetch); // Forcing a re-run of useEffect
+        setRerender(!rerender);
 
     
     }
@@ -37,14 +38,16 @@ const GroupPost = ({data, rerender, setRerender}) => {
         const constructImageURL = () => {
             if(data.img_public_id !== '0'){
                 setImageURL(`https://res.cloudinary.com/${cloudName}/image/upload/${data.img_version}/${data.img_folder_name}/${data.img_public_id}`);
+            }else{
+                setImageURL('');
             }
         }
         constructImageURL();
-    }, []);
+    }, [refetch, rerender]);
 
 
   return (
-    <div className='border border-solid border-grayedcolor bg-bglight w-fit m-auto  min-h-fit px-5' id="post-container"  onDoubleClick = {() => { navigate(`/post/${data.post_id}`)}} title="Double Click to view full post">
+    <div className='border border-solid border-grayedcolor bg-bglight w-[96%] m-auto  min-h-fit px-5' id="post-container"  onDoubleClick = {() => { navigate(`/post/${data.post_id}`)}} title="Double Click to view full post">
            <div className='h-full px-3 my-0 min-h-fit' id="post">
                 <span className='p-5 block w-full text-left'>
                     <strong className='text-2xl' onClick={() => { navigate(`/user/@${data.username}`)}}>{data.username}</strong>

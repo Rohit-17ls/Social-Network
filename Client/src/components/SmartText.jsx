@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
-const SmartText = ({text}) => {
+const SmartText = ({text, rerender}) => {
 
     const textRef = useRef();
 
@@ -10,7 +10,7 @@ const SmartText = ({text}) => {
         }).replace(/&[a-zA-Z0-9_-]*/g, (match, ind) => {
             return `<a href='/group/${match.slice(1,)}' class='text-groupcolor font-semibold no-underline'>${match}</a>`;
         })
-    }, [])
+    }, [rerender])
 
   return (
     <div className='m-0' ref={textRef}></div>
