@@ -41,9 +41,9 @@ const Search = () => {
     }
 
     return (
-        <div className='w-1/3 max-w-[500px] m-3'>
+        <div className='min-w-[200px] max-w-[500px] m-3 mx-auto'>
             {/* <Input type={"text"} defaultValue={"Search for names with an @ and groups with &"} title="" handler={searchHandler}/> */}
-            <form   autocomplete="off"
+            <form   autoComplete="off"
                     onSubmit={(e) => {
                     e.preventDefault();
                     // console.log(`${location.href.split('/').slice(0, 3).join('/')}/${search[0] === '@' ? 'user' : (search[0] === '&' ? 'group' : '')}/${search.slice(1,)}`);
@@ -59,7 +59,7 @@ const Search = () => {
                     onChange={(e) => {searchHandler(e.target)}}
                 />
             </form>
-            <div className='m-auto flex flex-col w-full bg-bglight rounded-t-xl rounded-b-lg'>
+            <div className='m-auto flex flex-col z-10 bg-bglight rounded-t-xl rounded-b-lg'>
                 {searchResults ? searchResults.map((result, id) => 
                     <div key={id} className='w-full px-3 py-1 text-left hover:bg-[#383737]' onClick={() => {adoptSearchResult(result.search_result)}}>
                         <SmartText text={result.search_result} rerender={searchResults}/>

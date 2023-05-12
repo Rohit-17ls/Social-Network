@@ -32,6 +32,7 @@ module.exports.retrievePostData = async (req, res, next) => {
             const [rows02, fields02] = await connection.execute(query02);
             if(!rows02[0].can_access){
                 console.log('Cannot access');
+                connection.release();
                 res.json({status : "Couldn't find the post you're looking for", isRetrieved : false});
                 return;
             }
@@ -42,6 +43,7 @@ module.exports.retrievePostData = async (req, res, next) => {
         const [rows1, fields1] = await connection.execute(query1);
 
         if(!rows1.length){
+            connection.release();
             res.json({isRetrieved: false});
             return;
         }

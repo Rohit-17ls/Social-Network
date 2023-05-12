@@ -155,6 +155,7 @@ module.exports.addMember = async(req, res, next) => {
         console.log(rows1);
         
         if(rows1[0].count === 0){
+            connection.release();
             res.json({isAdded: false, status : 'User not found'});
             return;
         }
@@ -182,6 +183,7 @@ module.exports.removeMember = async(req, res, next) => {
         console.log(rows1);
         
         if(rows1[0].count === 0){
+            connection.release();
             res.json({isRemoved: false, status : 'User not found'});
             return;
         }

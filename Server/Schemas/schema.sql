@@ -5,6 +5,10 @@ USE social_network;
 CREATE TABLE users(user_id VARCHAR(256) PRIMARY KEY NOT NULL,
                    username VARCHAR(255) NOT NULL,
                    email VARCHAR(255) NOT NULL, 
+                   description VARCHAR(480) DEFAULT '',
+                   img_folder_name VARCHAR(128),
+                   img_public_id VARCHAR(128),
+                   img_version VARCHAR(128),
                    password VARCHAR(256) NOT NULL);
 
 CREATE TABLE auth(user_id VARCHAR(256),

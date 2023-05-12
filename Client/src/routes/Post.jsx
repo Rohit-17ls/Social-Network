@@ -63,7 +63,7 @@ const Post = () => {
                 return;
             } 
 
-            data.text_content.replace(/@[a-zA-Z0-9_-]*/g, (match, index) => {
+            if(data.text_content) data.text_content.replace(/@[a-zA-Z0-9_-]*/g, (match, index) => {
                 return `<a href='/user/${match.slice(1,)}' class='text-themecolor font-semibold no-underline'>${match}</a>`
               });
             console.log(data);
@@ -84,7 +84,7 @@ const Post = () => {
     <>
         <dialog ref={modalRef}><NeedsAuthentication message={"Sign up to cast your vote"}/></dialog>
         {!postState ? <Spinner/> : 
-        <div className='border border-solid border-grayedcolor bg-bglight w-fit m-auto  min-h-fit flex flex-row gap-3 pl-3' id="post-container">
+        <div className='border border-solid border-grayedcolor bg-bglight w-fit m-auto  min-h-fit flex flex-row gap-3 pl-3' style={{marginTop: '14em'}} id="post-container">
            <div className='m-auto h-full px-3 my-0 min-h-fit' id="post">
                 <span className='p-5 block w-full text-left'>
                     <strong className='text-2xl' onClick={() => { navigate(`/user/@${data.username}`)}}>{data.username}</strong>

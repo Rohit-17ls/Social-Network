@@ -44,7 +44,7 @@ const Notifications = () => {
   return (
     <div>
         {isFetchingNotifications ? <Spinner/> :
-        <div className='my-10 p-3 rounded-xl border-solid border-grayedcolor bg-bglight'>
+        <div className='my-10 p-3 h-max-[40vh] overflow-y-scroll rounded-xl border-solid border-grayedcolor bg-bglight'>
             <strong className='text-2xl'>Notifications</strong>
             {notificationData.notifications.map((x, id) =>  <Notification key={id} notification={x}/> )}
             {!notificationData.notifications.length && <div className='m-3'>You're clear</div>}

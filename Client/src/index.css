@@ -131,7 +131,7 @@ div{
 }
 
 #post-container{
-  margin-top: 8em;
+  margin-top: 5em;
 }
 
 #post{
@@ -157,7 +157,7 @@ div{
   overflow-y: scroll;
 }
 
-#post-data, #group-data{
+#post-data, #group-data, #post-container{
   transition: all 0.5s ease-in-out;
 }
 
@@ -178,7 +178,11 @@ div{
     max-height: 400px;
    }
 
-   #post-data, #group-data{
+  
+}
+
+@media(max-width : 1280px){
+  #post-data, #group-data{
     width: 95%;
    }
 

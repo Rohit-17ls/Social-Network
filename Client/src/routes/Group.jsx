@@ -133,7 +133,7 @@ const Group = () => {
   if(isUnauthorized) return <NeedsAuthentication message={'Sign up to join groups'}/>
 
   return (
-    <div className='w-[98vw] h-full my-10 mx-2'>
+    <div className='w-[98vw] h-full my-[5em] mx-2'>
       <dialog ref={modalRef}><NeedsAuthentication message={'Sign up to join groups'}/></dialog>
 
       <dialog ref={addMemberRef}>
@@ -210,7 +210,10 @@ const Group = () => {
                 <GroupPosts ordering={groupPostsOrdering} groupname={groupname}/>
              </div>
 
-             <Search/>
+             <div className='w-full'>
+              <strong className='w-full text-2xl my-5 mx-auto'>Search</strong>
+              <Search/>
+             </div>
 
              <dialog ref={groupMembersRef}>
                 <div className='w-1/3 h-fit text-lg border border-solid border-grayedcolor p-4 rounded-lg' style={{minWidth: '400px', maxWidth: '500px'}}>

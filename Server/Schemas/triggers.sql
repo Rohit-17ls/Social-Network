@@ -14,6 +14,9 @@ END //
 
 DELIMITER ;
 
+/* -------------------------------------------------------------------------------------------------------------------------------*/
+
+
 DELIMITER //
 CREATE TRIGGER notify_group_removal
 AFTER DELETE ON user_groups
@@ -30,6 +33,8 @@ END //
 
 DELIMITER ;
 
+/* -------------------------------------------------------------------------------------------------------------------------------*/
+
 
 DELIMITER //
 CREATE TRIGGER notify_group_post
@@ -43,6 +48,22 @@ BEGIN
         SET v_notification_id = SHA2(CONCAT(NEW.group_id, NEW.post_id, v_user_id, 'notification_id', CURRENT_TIMESTAMP()), 256);
 		INSERT INTO notifications(user_id, notification_id, status, message) VALUES(v_user_id, v_notification_id, 'unseen', CONCAT('New post in group &', (SELECT groupname FROM groups WHERE group_id = NEW.group_id)));
     END FOR;
+END //
+
+DELIMITER ;
+
+/* -------------------------------------------------------------------------------------------------------------------------------*/
+
+DELIMITER //
+CREATE TRIGGER notify_follow
+AFTER INSERT ON connections
+FOR EACH ROW
+BEGIN
+	DECLARE v_notification_id VARCHAR(256);
+    DECLARE v_follower_name VARCHAR(255);
+    SET v_notification_id = SHA2(CONCAT(NEW.follower_id, NEW.following_id, CURRENT_TIMESTAMP()), 256);
+    SELECT username INTO v_follower_name FROM users WHERE user_id = NEW.follower_id;
+	INSERT INTO notifications(user_id, notification_id, status, message) VALUES ('@', NEW.following_id, v_notification_id, 'unseen', CONCAT(v_follower_name, ' started following you'));
 END //
 
 DELIMITER ;

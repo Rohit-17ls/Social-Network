@@ -1,21 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Spinner from "../components/Spinner";
-import SmallSpinner from "../components/SmallSpinner";
+import chat_logo from '../../public/social_chat.jpg'
 
 const Signup = () => {
 
    return(
-    <div className='flex flex-col gap-3'>
-      <h1 className="text-white text-bold">List of routes just for testing, comment out when writing code  for this component</h1>
-      <Link to="/user/asdf">Profile</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Signup</Link>
-      <Link to="/new/post">New Post</Link>
-      <Spinner/>
-      <SmallSpinner/>
-
-    </div>
+    <div className="absolute flex flex-row xl-max:flex-col items-center left-0 h-3/4 w-100vw h-100vh bg-[#a8fc94] my-0" style={{width:'100vw', height: '100vh'}}>
+            <div className="flex flex-col justify-center w-2/3 h-full my-5">
+                <span className="text-black font-semibold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">Simple.Secure.Reliable</span>
+                <span className="block text-black font-semibold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-5 sm :mb-0 md:mb-3 lg:mb-4 xl:mb-5">Messaging</span>
+                <span className="text-black text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl">Simple, reliable, private messaging</span>
+                <span className="text-black text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl">available all over the world.</span>
+            </div>
+            <div className="flex justify-center m-5 h-full">
+                <img src={chat_logo} alt="chat_logo" className="w-[500px] m-auto"/>
+            </div> 
+      </div>
    )
 }
 

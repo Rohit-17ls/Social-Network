@@ -3,6 +3,8 @@ import NeedsAuthentication from '../components/NeedsAuthentication';
 import { AuthContext } from '../context/AuthContext';
 import useAuthorize from '../hooks/useAuthorize';
 import Spinner from '../components/Spinner';
+import Dashboard from '../components/Dashboard';
+import Search from '../components/Search';
 
 
 function Profile() {
@@ -35,7 +37,13 @@ function Profile() {
   return (
     <>{!isAuthorized() ?
         (isAuthorizing ? <Spinner/> : <NeedsAuthentication/>) :
-        <div>Code for Profile Component</div>
+        <div className='w-full flex flex-row justify-start llg-max:flex-col-reverse mt-[12em]'>
+          <Dashboard/>
+          <div className='w-1/3 llg-max:w-full m-3'>
+            <strong className='w-full text-3xl text-center block'>Search</strong>
+            <Search/>
+          </div>
+        </div>
     }
 
     </>

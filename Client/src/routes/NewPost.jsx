@@ -201,7 +201,7 @@ const NewPost = () => {
     <>
     {!isAuthorized() ?
         (isAuthorizing ? <Spinner/> : <NeedsAuthentication/>) :
-        <div className='my-20 w-full'>
+        <div className='my-[8em] w-full'>
 
           <section className = 'w-full flex flex-row justify-evenly gap-5' id="new-post">
             <table className='mx-10 w-1/2 border-separate border-spacing-10' id="post-data">

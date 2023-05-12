@@ -24,6 +24,9 @@ END //
 
 DELIMITER ;
 
+/* -------------------------------------------------------------------------------------------------------------------------------*/
+
+
 /* Downvote */
 
 DELIMITER //
@@ -51,4 +54,22 @@ END //
 DELIMITER ;
 
 
+/* -------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Follow User */
+
+DELIMITER //
+CREATE OR REPLACE PROCEDURE follow_user(IN v_follower_id VARCHAR(256), IN v_following_id  VARCHAR(256))
+BEGIN
+	DECLARE v_is_following INT DEFAULT 0;
+    SELECT count(*) INTO v_is_following FROM connections WHERE follower_id = v_follower_id AND following_id = v_following_id;
+    
+    IF v_is_following = 1 THEN
+    	DELETE FROM connections WHERE follower_id = v_follower_id AND following_id = v_following_id;
+    ELSE
+    	INSERT INTO connections(follower_id, following_id) VALUES (v_follower_id, v_following_id);
+    END IF;
+END //
+
+DELIMITER ;
 
