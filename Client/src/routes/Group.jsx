@@ -195,7 +195,7 @@ const Group = () => {
           </div>
 
           <div className='w-full my-10 flex flex-row justify-evenly gap-10'>
-            <div className='w-fit max-w-[600px]  mx-5 items-start'>
+            <div className='w-fit min-w-[600px] max-w-[700px]  mx-5 items-start'>
               <strong className='text-2xl'>POSTS</strong>
               <div className='w-full mt-4 mb-1 font-semibold p-1 border-b-2 border-grayedcolor'>
                 <span 

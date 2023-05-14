@@ -37,9 +37,10 @@ function Profile() {
   return (
     <>{!isAuthorized() ?
         (isAuthorizing ? <Spinner/> : <NeedsAuthentication/>) :
-        <div className='w-full flex flex-row justify-start llg-max:flex-col-reverse mt-[12em]'>
+        <div className='w-full flex flex-row justify-start llg-max:flex-col-reverse mt-[12em]' id="profile">
           <Dashboard/>
-          <div className='w-1/3 llg-max:w-full m-3'>
+          {/* w-1/3 llg-max:w-full m-3  */}
+          <div className='min-w-[500px] fixed left-[65%] m-3' id="side-bar">
             <strong className='w-full text-3xl text-center block'>Search</strong>
             <Search/>
           </div>

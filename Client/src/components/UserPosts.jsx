@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Spinner from './Spinner';
 import UserPost from './UserPost';
-import { useLocation } from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 
 const UserPosts = ({username, ordering}) => {
 
@@ -10,8 +10,9 @@ const UserPosts = ({username, ordering}) => {
     const [isFetching, setIsFetching] = useState(true);
     const [refetch, setRefetch] = useState(0);
     const [rerender, setRerender] = useState(0);
-
+    
     const location = useLocation();
+    const [currentLocation, setCurrentLocation] = useState(location);
 
     useEffect(() => {
         if(posts.length){
@@ -64,7 +65,10 @@ const UserPosts = ({username, ordering}) => {
 
         retrieveUserPosts();
 
-    }, [refetch, location.pathname]);
+    }, [refetch, location, currentLocation]);
+
+    
+
 
     if(status) return <div className='font-semibold'>{status}</div>
 

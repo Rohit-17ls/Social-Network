@@ -194,4 +194,18 @@ div{
      flex-direction: column-reverse;
      align-items: center;
    }
+
+   #side-bar{
+    position: static;
+    left: 0;
+   }
+
+}
+
+@media(max-width: 800px){
+  #profile-img{
+    width: 8em;
+    height:  8em;
+    margin-right: 20px;
+  }
 }

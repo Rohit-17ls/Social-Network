@@ -28,6 +28,7 @@ export default function Dashboard() {
     const [description, setDescription] = useState('');
     const [saving, setSaving] = useState(false);
     const [image, setImage] = useState(0);
+    const [imageURL, setImageURL] = useState('');
     const cloudName = 'duoljv54r';
     
     const [userData, setUserData] = useState({});
@@ -148,7 +149,7 @@ export default function Dashboard() {
             }
 
             if(data.data.imgPublicID !== null){
-                data.data.imageURL = `https://res.cloudinary.com/duoljv54r/image/upload/${data.data.imgVersion}/${data.data.imgFolderName}/${data.data.imgPublicID}`;
+                setImageURL(`https://res.cloudinary.com/duoljv54r/image/upload/${data.data.imgVersion}/${data.data.imgFolderName}/${data.data.imgPublicID}`);
             }
             setUserData(data.data);
 
@@ -169,15 +170,16 @@ export default function Dashboard() {
     return (
         <>
             {isFetching ? <Spinner/> :
-            <div className="w-2/3 w-min-[500px] max-w-[800px] h-full flex llg-max:w-[80%] m-auto xl-max:w-[600px]">
+            <div className="w-2/3 mx-3 w-min-[500px] max-w-[800px] h-full flex llg-max:w-[80%] m-auto xl-max:w-[600px]">
                 <div className="w-full h-full bg-wcolor flex flex-col gap-4">
                     <div className="w-full w-min-[500px] flex items-center justify-start h-[30vh]">
                         <div className="w-1/3 rounded-[100vw] flex justify-center items-start min-w-[100px] min-h-[100px] max-w-[200px] max-h-[200px]" 
                              onClick={() => {
                                 imgUploadRef.current.click();
                             }}>
-                            <img src={userData.imageURL || user}
+                            <img src={imageURL || user}
                                  ref={imgRef}
+                                 id="profile-img"
                                  alt="profile-img" 
                                  className="bg-[#fcf6f6a8] rounded-[100vh] w-[12em] h-[12em] border-4 border-solid border-themecolor"
                             />
