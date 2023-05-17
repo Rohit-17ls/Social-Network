@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Notifications from '../components/Notifications';
 import groupImage from '../../public/network.png';
 import NotFound from './NotFound';
 import Spinner from '../components/Spinner';
@@ -14,8 +13,8 @@ import AddUser from '../icons/AddUser';
 import RemoveUser from '../icons/RemoveUser';
 import AddPost from '../icons/AddPost';
 import ViewGroupMembers from '../icons/ViewGroupMembers';
-import GroupPosts from '../components/GroupPosts';
-import Search from '../components/Search';
+import GroupPosts from '../components/Groups/GroupPosts';
+import Search from '../components/Features/Search';
 
 const Group = () => {
 

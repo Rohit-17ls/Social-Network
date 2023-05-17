@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import Upvote from '../icons/Upvote';
-import Downvote from '../icons/Downvote';
-import PostBody from '../components/PostBody';
-import CommentsIcon from '../icons/CommentsIcon';
+import React, {useState, useEffect} from 'react';
+import PostBody from './PostBody';
+import Upvote from '../../icons/Upvote';
+import Downvote from '../../icons/Downvote';
+import CommentsIcon from '../../icons/CommentsIcon';
+import CopyLinkIcon from '../../icons/CopyLinkIcon';
 import { useNavigate } from 'react-router-dom';
-import CopyLinkIcon from '../icons/CopyLinkIcon';
 
-const GroupPost = ({data, refetch, setRefetch, rerender, setRerender}) => {
 
-    
+const UserPost = ({data, refetch, setRefetch, rerender, setRerender}) => {
+
     const [imageURL, setImageURL] = useState('');
     const navigate = useNavigate();
     const cloudName = 'duoljv54r';
@@ -45,9 +45,8 @@ const GroupPost = ({data, refetch, setRefetch, rerender, setRerender}) => {
         constructImageURL();
     }, [refetch, rerender]);
 
-
   return (
-    <div className='border border-solid border-grayedcolor bg-bglight w-[96%] m-auto  min-h-fit px-5' id="post-container"  onDoubleClick = {() => { navigate(`/post/${data.post_id}`)}} title="Double Click to view full post">
+    <div className='border border-solid border-grayedcolor bg-bglight w-[96%] max-w-[600px] min-w-[500px] m-auto  min-h-fit px-5' id="post-container"  onDoubleClick = {() => { navigate(`/post/${data.post_id}`)}} title="Double Click to view full post">
            <div className='h-full px-3 my-0 min-h-fit' id="post">
                 <span className='p-5 block w-full text-left'>
                     <strong className='text-2xl' onClick={() => { navigate(`/user/${data.username}`)}}>{data.username}</strong>
@@ -76,4 +75,4 @@ const GroupPost = ({data, refetch, setRefetch, rerender, setRerender}) => {
   )
 }
 
-export default GroupPost
+export default UserPost

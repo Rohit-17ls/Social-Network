@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 import UserPost from './UserPost';
 import { useLocation} from 'react-router-dom';
 

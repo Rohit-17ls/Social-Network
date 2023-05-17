@@ -182,3 +182,21 @@ module.exports.updateDescription = async(req, res, next) => {
         res.json({isUpdated: false, status: "Failed to update description"});
     }
 }
+
+module.exports.getRecommendedUsers = async(req, res, next) => {
+    try{
+        const username = JSON.parse(Buffer.from(req.cookies.jwt.split('.')[1], 'base64').toString()).username;
+        const user_id = getHash('user_id', username);
+
+        const connection = await pool.getConnection();
+        const query1 = `SELECT username, img_folder_name, img_public_id, img_version, (SELECT count(*) FROM connections WHERE following_id = user_id) as rank FROM users WHERE NOT EXISTS (SELECT 1 FROM connections WHERE users.user_id = connections.following_id AND connections.follower_id = '${user_id}') AND user_id != '${user_id}' order by rank desc LIMIT 3;`;
+        const [rows1, fields1] = await connection.execute(query1);
+        
+        connection.release();
+        res.json({isRetrieved: true, recommendedUsers: rows1})
+
+    }catch(err){
+        console.log(err);
+        res.json({isFetched: false, status: "Couldn't fetch users"});
+    }
+}

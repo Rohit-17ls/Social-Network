@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 import { useNavigate } from 'react-router-dom';
 import Notification from './Notification';
 

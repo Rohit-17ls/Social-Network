@@ -1,13 +1,12 @@
 import React from 'react'
 import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SmartText from './SmartText';
+import SmartText from '../SmartText';
 
 const Comment = ({commentData, id}) => {
 
     const navigate = useNavigate();
-
-
+    console.log(commentData.comment)
 
   return (
     <div className='p-3 border-b border-solid border-grayedcolor'>

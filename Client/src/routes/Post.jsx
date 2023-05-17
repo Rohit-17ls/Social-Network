@@ -4,9 +4,9 @@ import Spinner from '../components/Spinner';
 import Upvote from '../icons/Upvote';
 import Downvote from '../icons/Downvote';
 import Bookmark from '../icons/Bookmark';
-import PostBody from '../components/PostBody';
+import PostBody from '../components/Posts/PostBody';
 import CommentsIcon from '../icons/CommentsIcon';
-import Comments from '../components/Comments';
+import Comments from '../components/Comments/Comments';
 import NeedsAuthentication from '../components/NeedsAuthentication';
 import NotFound from './NotFound';
 
@@ -87,7 +87,7 @@ const Post = () => {
         <div className='border border-solid border-grayedcolor bg-bglight w-fit m-auto  min-h-fit flex flex-row gap-3 pl-3' style={{marginTop: '14em'}} id="post-container">
            <div className='m-auto h-full px-3 my-0 min-h-fit' id="post">
                 <span className='p-5 block w-full text-left'>
-                    <strong className='text-2xl' onClick={() => { navigate(`/user/@${data.username}`)}}>{data.username}</strong>
+                    <strong className='text-2xl' onClick={() => { navigate(`/user/${data.username}`)}}>{data.username}</strong>
                     <span className='text-grayedcolor m-4'>{new Date(data.time_stamp).toLocaleString()}</span>
                 </span>
                 {imageURL ? <img className='m-auto border border-solid border-tagcolor rounded-xl post-image' src={imageURL}/> : <></>}

@@ -1,17 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import user from '../../public/user.png';
 import SmartText from "./SmartText";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import NotFound from "../routes/NotFound";
 import EditIcon from "../icons/EditIcon";
 import NotificationIcon from "../icons/NotificationIcon";
-import Notifications from "./Notifications";
-import UserPosts from "./UserPosts";
-import Connections from "./Connections";
+import Notifications from "./Features/Notifications";
+import UserPosts from "./Posts/UserPosts";
+import Connections from "./Features/Connections";
 import SaveIcon from "../icons/SaveIcon";
 import SmallSpinner from "./SmallSpinner";
 import axios from "axios";
+import AddPost from "../icons/AddPost";
+import AddGroup from "../icons/AddGroup";
+import ViewStatus from "../icons/ViewStatus";
 
 // import dp from '/src/profile_dp.jpg'
 
@@ -32,6 +35,7 @@ export default function Dashboard() {
     const cloudName = 'duoljv54r';
     
     const [userData, setUserData] = useState({});
+    const navigate = useNavigate();
     
     const notificationsRef = useRef();
     const showConnectionsRef = useRef();
@@ -129,7 +133,7 @@ export default function Dashboard() {
     
 
     useEffect(() => {
-       
+       console.log('Location update')
         const retrieveUserData = async() => {
             const res = await fetch(`http://localhost:3000/api/user/${username}`, {
                 method: 'POST',
@@ -150,6 +154,8 @@ export default function Dashboard() {
 
             if(data.data.imgPublicID !== null){
                 setImageURL(`https://res.cloudinary.com/duoljv54r/image/upload/${data.data.imgVersion}/${data.data.imgFolderName}/${data.data.imgPublicID}`);
+            }else{
+                setImageURL('');
             }
             setUserData(data.data);
 
@@ -175,7 +181,7 @@ export default function Dashboard() {
                     <div className="w-full w-min-[500px] flex items-center justify-start h-[30vh]">
                         <div className="w-1/3 rounded-[100vw] flex justify-center items-start min-w-[100px] min-h-[100px] max-w-[200px] max-h-[200px]" 
                              onClick={() => {
-                                imgUploadRef.current.click();
+                                if(userData.isViewingSelf) imgUploadRef.current.click();
                             }}>
                             <img src={imageURL || user}
                                  ref={imgRef}
@@ -221,6 +227,9 @@ export default function Dashboard() {
                                         <span title="Edit Profile" onClick={() => {updateProfileRef.current.showModal()}}><EditIcon/></span>
                                         <span title="View Notifications" onClick={() => {notificationsRef.current.showModal()}}><NotificationIcon/></span>
                                         <span title="Save Profile" onClick={() => saveProfile()}>{saving ? <SmallSpinner/> : <SaveIcon/>}</span>
+                                        <span title="New Post" onClick={() => {navigate('/new/post')}}><AddPost width={'27'} height={'27'}/></span>
+                                        <span title="New Group" onClick={() => {navigate('/new/group')}}><AddGroup/></span>
+                                        <span title="View Statuses" onClick={() => {navigate('/check/status')}}><ViewStatus/></span>
                                     </div>
                                 }
                             </div>

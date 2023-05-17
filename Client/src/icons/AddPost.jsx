@@ -1,12 +1,12 @@
 import React from 'react'
 
-const AddPost = () => {
+const AddPost = ({width, height}) => {
   return (
     <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
-    width="21px"
-    height="21px"
+    width={width || "21px"}
+    height={height || "21px"}
     viewBox="0 0 21 21"
     version="1.1"
     className='svg-clickable'

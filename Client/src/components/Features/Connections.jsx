@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import SmallSpinner from './SmallSpinner';
-import SmartText from './SmartText';
+import SmallSpinner from '../SmallSpinner';
+import SmartText from '../SmartText';
 
 const Connections = ({type, username}) => {
 

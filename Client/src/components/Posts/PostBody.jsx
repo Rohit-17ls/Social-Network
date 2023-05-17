@@ -1,6 +1,6 @@
 import React from 'react'
-import Tag from './Tag'
-import SmartText from './SmartText';
+import Tag from '../Tag'
+import SmartText from '../SmartText';
 
 const PostBody = ({data}) => {
 

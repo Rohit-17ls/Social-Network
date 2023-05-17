@@ -1,15 +1,16 @@
 import React, {useState, useContext, useRef} from 'react';
-import Input from './Input'
-import SendIcon from '../icons/SendIcon'
-import SmallSpinner from './SmallSpinner';
-import useAuthorize from '../hooks/useAuthorize';
-import { AuthContext } from '../context/AuthContext';
-import NeedsAuthentication from './NeedsAuthentication';
+import Input from '../Input'
+import SendIcon from '../../icons/SendIcon'
+import SmallSpinner from '../SmallSpinner';
+import useAuthorize from '../../hooks/useAuthorize';
+import { AuthContext } from '../../context/AuthContext';
+import NeedsAuthentication from '../NeedsAuthentication';
 
-const NewComment = ({postID, isPostingComment, setIsPostingComment}) => {
+const NewComment = ({postID, refetch, setRefetch}) => {
 
   const [newComment, setNewComment] = useState('');
   const [postingError, setPostingError] = useState('');
+  const [isPostingComment, setIsPostingComment] = useState(false);
   const modalRef = useRef();
 
 
@@ -43,6 +44,7 @@ const NewComment = ({postID, isPostingComment, setIsPostingComment}) => {
     if(!res.isPostedComment) setPostingError("Couldn't post comment !!!");
 
     setIsPostingComment(false);
+    setRefetch(!refetch);
 
 
   }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import GroupPost from './GroupPost';
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 
 const GroupPosts = ({ordering, groupname}) => {
 

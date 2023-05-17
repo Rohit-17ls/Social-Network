@@ -71,7 +71,7 @@ module.exports.retrievePostData = async (req, res, next) => {
             [rows5, fields5] = await connection.execute(query5);
         }
         
-        console.log(data);
+        // console.log(data);
         connection.release();
 
 

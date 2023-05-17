@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react'
-import SmartText from './SmartText';
+import SmartText from '../SmartText';
 import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
