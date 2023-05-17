@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner';
 import Dashboard from '../components/Dashboard';
 import Search from '../components/Features/Search';
 import RecommendedUsers from '../components/Features/RecommendedUsers';
+import NotFound from './NotFound';
 
 
 function Profile() {
@@ -14,6 +15,7 @@ function Profile() {
   const authorize = useAuthorize();
   const {getCredentials, getAuthState : isAuthorized, setAuthState} = useContext(AuthContext);
   const [isAuthorizing, setIsAuthorizing] =  useState(true);
+  const [is404, setIs404] = useState(0);
  
 
 
@@ -38,14 +40,13 @@ function Profile() {
 
 
 
-
   return (
     <>{!isAuthorized() ?
         (isAuthorizing ? <Spinner/> : <NeedsAuthentication/>) :
         <div className='w-full flex flex-row justify-start llg-max:flex-col-reverse mt-[12em]' id="profile">
-          <Dashboard/>
+          {is404 ? <NotFound/> : <Dashboard setIs404={setIs404}/>}
           {/* w-1/3 llg-max:w-full m-3  */}
-          <div className='min-w-[450px] fixed left-[65%] m-3' id="side-bar">
+          <div className={`min-w-[450px] ${!is404 ? 'fixed' : ''} left-[65%] m-3`} id="side-bar">
             <div className='w-full h-fit'>
               <strong className='w-full text-3xl text-center block'>Search</strong>
               <Search/>

@@ -170,6 +170,14 @@ div{
   width: 12px;
 }
 
+#comments::-webkit-scrollbar-track{
+  background: none;
+}
+
+#post::-webkit-scrollbar-track{
+  background: none;
+}
+
 #post-data, #group-data, #post-container{
   transition: all 0.5s ease-in-out;
 }

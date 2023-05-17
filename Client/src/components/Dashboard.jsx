@@ -20,10 +20,9 @@ import ViewStatus from "../icons/ViewStatus";
 
 
 
-export default function Dashboard() {
+export default function Dashboard({setIs404}) {
 
     const {username} = useParams();
-    const [is404, setIs404] = useState(0);
     const [isFetching, setIsFetching] = useState(1);
     const [refetch, setRefetch] = useState(1);
     const [ordering, setOrdering] = useState('Recent');
@@ -170,7 +169,6 @@ export default function Dashboard() {
     }, [refetch, location.pathname]);
 
 
-    if(is404) return (<NotFound/>);
 
 
     return (

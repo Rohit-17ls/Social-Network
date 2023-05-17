@@ -8,6 +8,7 @@ const postRoutes = require('./routes/postRoutes.js');
 const groupRoutes = require('./routes/groupRoutes.js');
 const miscellaneousRoutes = require('./routes/miscellaneousRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
+const exploreRoutes = require('./routes/exploreRoutes.js')
 
 app.use(express.json())
 app.use(express.urlencoded({extended : true}));
@@ -21,6 +22,7 @@ app.use(postCreationRoutes);
 app.use(postRoutes);
 app.use(groupRoutes);
 app.use(miscellaneousRoutes);
+app.use(exploreRoutes);
 
 app.listen('3000', () => {
     console.log('Listening at port 3000');
