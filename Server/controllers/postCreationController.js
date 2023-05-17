@@ -74,8 +74,10 @@ module.exports.make_post = async(req, res, next) => {
                 const [response] = await connection.execute(query2);
 
            }
-
-
+        }else{
+            connection.release();
+            res.json({isPosted: true, status: 'Post Created !!', post_id});
+            return;
         }
 
         if(is_private === 0){
