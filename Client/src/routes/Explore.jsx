@@ -62,6 +62,7 @@ const Explore = () => {
     console.log(isIntersecting);
     if(isIntersecting || isLoading){
         fetchPosts();
+        setOffset(offset+1);
     }
 
   }, [isIntersecting]);
@@ -72,9 +73,9 @@ const Explore = () => {
         const intersectionObserver = new IntersectionObserver(
             ([entry]) => {
 
-                // setOffset(offset+1);
+                // setOffset(offset + 1);
                 setIsIntersecting(entry.isIntersecting);
-            }, {rootMargin: '0px'});
+            }, {rootMargin: '200px'});
     
     
             // Subscribe to the observe method
@@ -85,47 +86,39 @@ const Explore = () => {
             }
     }
 
-  }, [])
+  }, [isIntersecting, isLoading])
 
   if(!isAuthorized) return <NeedsAuthentication/>
 
   return (
-    <>
-  
-    {isLoading ? <Spinner/> : 
-    // {!isLoading ? <Spinner/> : 
-    
     <div>
-        <section className='my-10'>
-        {
-            posts.map((post, id) => <div><ExplorePost data={post}/></div>)
-        }
+        <strong className='block w-[100vw] text-3xl mx-auto mt-[4em] my-0 h-fit p-3'>Explore</strong>
+        {isLoading ? <Spinner/> : 
+        // {!isLoading ? <Spinner/> : 
         
-        </section>
-        {/* <div className='my-10'>
-        {
-           new Array(renders[0]).fill(0).map(x => <div className='my-3 p-4 mx-auto w-1/2'>{lorem}</div>)
-        }
-        
-        </div> */}
-        <div ref={observedRef} className={`h-[100px] ${isIntersecting ? 'bg-bglight py-4' : '' }`}>
-            {error ? <strong className='block p-[30px] mx-auto my-[6vh]'>No posts available</strong> :
-                <>
-                <strong className='text-xl block my-3'>Stick with us while we bring you latest the posts</strong>
-                <SmallSpinner/>
-            </>}
-
-        </div>    
-
         <div>
-            {lorem}
+            <section className='my-4'>
+            {
+                posts.map((post, id) => <div><ExplorePost data={post}/></div>)
+            }
+            
+            </section>
+        
+            <div ref={observedRef} className={`h-[100px] ${'py-4'}`}>
+                {error ? <strong className='block p-[30px] mx-auto my-[6vh]'>You've probably reached the end</strong> :
+                    <>
+                    <strong className='text-xl block my-3'>Stick with us while we bring you latest the posts</strong>
+                    <SmallSpinner/>
+                </>}
+
+            </div>    
+
+            
         </div>
-    
+
+
+        }
     </div>
-
-
-    }
-    </>
    
   )
 }

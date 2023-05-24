@@ -7,10 +7,10 @@ const EditIcon = () => {
     fill="none"
     height={28}
     width={28}
-    stroke="white"
+    stroke="#c3c3c3"
+    strokeWidth={1.5}
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
     viewBox="0 0 24 24"
   >
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />

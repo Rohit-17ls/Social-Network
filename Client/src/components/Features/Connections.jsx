@@ -41,7 +41,7 @@ const Connections = ({type, username}) => {
     if(error) return <strong>{error}</strong>
 
   return (
-    <div className='bg-bglight w-[90%] rounded-lg max-h-[40vh] min-h-fit overflow-y-scroll p-5'>
+    <div className='bg-bglight w-[90%] rounded-lg max-h-[40vh] min-h-fit overflow-y-scroll px-1' id="connections">
       {isFetching ? <SmallSpinner/> : 
       <>
       

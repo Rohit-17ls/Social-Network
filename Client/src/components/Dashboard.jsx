@@ -227,7 +227,6 @@ export default function Dashboard({setIs404}) {
                                         <span title="Save Profile" onClick={() => saveProfile()}>{saving ? <SmallSpinner/> : <SaveIcon/>}</span>
                                         <span title="New Post" onClick={() => {navigate('/new/post')}}><AddPost width={'27'} height={'27'}/></span>
                                         <span title="New Group" onClick={() => {navigate('/new/group')}}><AddGroup/></span>
-                                        <span title="View Statuses" onClick={() => {navigate('/check/status')}}><ViewStatus/></span>
                                     </div>
                                 }
                             </div>
@@ -249,7 +248,7 @@ export default function Dashboard({setIs404}) {
                             <div className="m-3 w-[300px] max-h-[45vh] min-h-[25vh] flex flex-col justify-evenly">
                                 <strong className="block text-xl mx-auto my-2">{showConnections}</strong>
                                 {showConnections && <Connections type={showConnections} username={username}/>}
-                                <button className="m-4" style={{background: 'grey'}} type="button" onClick={() => {showConnectionsRef.current.close()}}>
+                                <button className="my-4 mx-auto max-w-[100px]" style={{background: 'grey'}} type="button" onClick={() => {showConnectionsRef.current.close()}}>
                                     Close
                                 </button>
                             </div>

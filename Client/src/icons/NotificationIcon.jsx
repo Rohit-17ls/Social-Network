@@ -12,10 +12,12 @@ const NotificationIcon = () => {
       <path
         style={{
           fill: "none",
-          strokeWidth: "2",
           strokeLinecap: "round",
           strokeLinejoin: "round",
-          stroke: "white",
+          // stroke: "white",
+          // strokeWidth: "2",
+          stroke : "#c3c3c3",
+          strokeWidth: 1.5,
           strokeOpacity: 1,
           strokeMiterlimit: 4
         }}
