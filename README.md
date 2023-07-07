@@ -34,7 +34,7 @@ You also need to run a SQL database either locally or on the cloud, update the f
 <br></br>
 <br></br>
 
-### Immaculate notifications
+### Concise notifications
 ![image](https://github.com/Rohit-17ls/Social-Network/assets/96904283/a51be6ae-57ba-456b-89aa-6f31809e9931)
 
 <br></br>
