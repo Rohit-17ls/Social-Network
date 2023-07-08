@@ -40,7 +40,7 @@ You also need to run a SQL database either locally or on the cloud, update the f
 <br></br>
 <br></br>
 
-### Easily create previewable posts and broadcast to groups with tags
+###  Easy to create previewable posts and broadcast to groups with tags
 ![image](https://github.com/Rohit-17ls/Social-Network/assets/96904283/0def1732-ad1e-4aea-9bf2-5467c16be9df)
 
 
