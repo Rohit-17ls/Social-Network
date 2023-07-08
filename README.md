@@ -14,7 +14,7 @@ You also need to run a SQL database either locally or on the cloud, update the f
 <br></br>
 <br></br>
 
-## Some features provided : 
+## Overview : 
 
 ### Login to get get going
 ![image](https://github.com/Rohit-17ls/Social-Network/assets/96904283/6b9e50b5-6900-4631-8ac2-64daaa426a67)
