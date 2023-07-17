@@ -1,5 +1,6 @@
 # Connective
-A social network application with the best features cherry picked from modern social media applications and improvised to provide a **fast**, **functional** and easily **navigable** environment.
+A social network application built by cherry picking the best of features from modern social media applications and improvised to provide a **fast**, **functional** and easily **navigable** environment.
+
 
 ## To get started with the project
 
