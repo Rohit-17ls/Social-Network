@@ -5,14 +5,13 @@ A social network application built by cherry picking the best of features from m
 ## To get started with the project
 
 <br>`git clone https://github.com/Rohit-17ls/Social-Network.git`</br>
-<br>`cd Client`</br>
-<br>`npm run dev`</br>
-<br>`cd ../Server`</br>
-<br>`node server.js`</br>
+`cd Client`\
+`npm run dev`\
+`cd ../Server`\
+`node server.js`
 
 You also need to run a SQL database either locally or on the cloud, update the file in **Server/Database/connection.js** appropriately
 
-<br></br>
 <br></br>
 
 ## Overview : 
